@@ -52,6 +52,7 @@ class BasicViewController {
         chartController = ChartsController(histogramChart, toneCurveChat)
         matrixImage = controller.loadNewImage()
         chartController.update(matrixImage, "R")
+        chartController.updateCurve(matrixImage,matrixImage, "R")
     }
 
     @FXML
