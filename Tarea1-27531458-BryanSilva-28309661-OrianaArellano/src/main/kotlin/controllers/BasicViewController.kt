@@ -3,31 +3,29 @@ package controllers
 
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.chart.BarChart
+import javafx.scene.chart.AreaChart
 import javafx.scene.chart.LineChart
 import javafx.scene.control.Label
-import javafx.scene.control.MenuItem
+import javafx.scene.control.RadioButton
+import javafx.scene.control.Slider
+import javafx.scene.control.ToggleGroup
 import javafx.scene.image.ImageView
 import javafx.stage.Stage
 import models.ImageMatrix
-import java.io.File
 
 
 class BasicViewController {
-    private lateinit var stage: Stage
 
+    private lateinit var stage: Stage
     fun setStage(stage: Stage) {
         this.stage = stage
     }
 
     @FXML
-    private lateinit var loadImage: MenuItem
+    private lateinit var histogramChart: AreaChart<Number, Number>
 
     @FXML
-    private val histogramChart: BarChart<Number, Number>? = null
-
-    @FXML
-    private val toneCurveChat: LineChart<Number, Number>? = null
+    private lateinit var toneCurveChat: LineChart<Number, Number>
 
     @FXML
     private lateinit var applicationConsole: Label
@@ -35,25 +33,37 @@ class BasicViewController {
     @FXML
     private lateinit var mainImageView: ImageView
 
-    private var startingImage: File? = null
+    private lateinit var chartController: ChartsController
 
     private var matrixImage: ImageMatrix? = null
 
     @FXML
-    fun onLoadImageClick(event: ActionEvent) {
-        val controller = ImageStateController()
-        val selectedFile: File? = controller.loadImage(stage, applicationConsole)
-        matrixImage = controller.changeImage(mainImageView, selectedFile, applicationConsole)
-        startingImage = selectedFile
+    private lateinit var histogram: ToggleGroup
+    @FXML
+    fun onRadioHistogramClick(event: ActionEvent) {
+        val channel = (histogram.selectedToggle as RadioButton).text
+        chartController.update(matrixImage, channel)
+
     }
 
     @FXML
+    fun onLoadImageClick(event: ActionEvent) {
+        val controller = ImageStateController(stage,applicationConsole, mainImageView)
+        chartController = ChartsController(histogramChart, toneCurveChat)
+        matrixImage = controller.loadNewImage()
+        chartController.update(matrixImage, "R")
+    }
+
+    @FXML
+    private lateinit var umbralSlider: Slider
+    @FXML
     fun onUmbralButtonClick(event: ActionEvent){
+        val threshold = umbralSlider.value.toInt()
         val width = matrixImage!!.width
         val height = matrixImage!!.height
         for (y in 0 until height) {
             for (x in 0 until width) {
-                if((matrixImage!!.pixels[y][x].r+matrixImage!!.pixels[y][x].g+matrixImage!!.pixels[y][x].b)/3 <= 45){
+                if((0.299*matrixImage!!.pixels[y][x].r + 0.587*matrixImage!!.pixels[y][x].g + 0.114*matrixImage!!.pixels[y][x].b) < threshold){
                     matrixImage!!.pixels[y][x].r = 0
                     matrixImage!!.pixels[y][x].g = 0
                     matrixImage!!.pixels[y][x].b = 0
@@ -100,12 +110,14 @@ class BasicViewController {
     }
 
     @FXML
+    private lateinit var  lightSlider: Slider
+    @FXML
     fun onLightButtonClick(event: ActionEvent) {
+        val change = lightSlider.value.toInt()
         val width = matrixImage!!.width
         val height = matrixImage!!.height
         for (y in 0 until height) {
             for (x in 0 until width) {
-                val change = -50
                 matrixImage!!.pixels[y][x].r = (matrixImage!!.pixels[y][x].r + change).coerceIn(0, 255)
                 matrixImage!!.pixels[y][x].g = (matrixImage!!.pixels[y][x].g + change).coerceIn(0, 255)
                 matrixImage!!.pixels[y][x].b = (matrixImage!!.pixels[y][x].b + change).coerceIn(0, 255)

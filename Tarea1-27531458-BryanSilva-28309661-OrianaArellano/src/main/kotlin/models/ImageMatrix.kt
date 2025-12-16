@@ -2,9 +2,10 @@ package models
 
 import javafx.scene.image.Image
 import javafx.scene.image.WritableImage
-import javafx.scene.paint.Color
+import java.io.BufferedReader
 import java.io.File
-import java.util.Scanner
+import java.io.FileReader
+import java.io.StreamTokenizer
 
 class ImageMatrix {
     var width = 0
@@ -21,6 +22,7 @@ class ImageMatrix {
         var ext = file.extension
         when(ext.lowercase()){
             "png" -> loadImageFromPNG(file)
+            "bmp" -> loadImageFromPNG(file)
             "pgm" -> loadImageFromPGM(file)
             "pbm" -> loadImageFromPBM(file)
             "ppm" -> loadImageFromPPM(file)
@@ -45,105 +47,101 @@ class ImageMatrix {
         pixels = matrix
     }
     private fun loadImageFromPGM(file: File){
-        val scanner = Scanner(file)
-        fun nextElement(): String{
-            while (scanner.hasNext()){
-                val pixel = scanner.next()
-                if (pixel.startsWith("#")){
-                    scanner.nextLine()
-                    continue
-                }
-                return pixel
-            }
-            throw Exception("Archivo Corrupto")
+        val reader = BufferedReader(FileReader(file))
+        val tokenizer = StreamTokenizer(reader)
+        tokenizer.commentChar('#'.code)
+        fun nextInt(): Int {
+            if (tokenizer.nextToken() == StreamTokenizer.TT_EOF)
+                throw Exception("Archivo incompleto")
+            return tokenizer.nval.toInt()
         }
-        val header = nextElement()
+        fun nextString(): String {
+            if (tokenizer.nextToken() == StreamTokenizer.TT_EOF)
+                throw Exception("Archivo incompleto")
+            return tokenizer.sval ?: ""
+        }
+        val header = nextString()
         if(header != "P2"){
             throw Exception("Codificacion no Soportada")
         }
-        width = nextElement().toInt()
-        height = nextElement().toInt()
-        maxVal = nextElement().toInt()
+        width = nextInt()
+        height = nextInt()
+        maxVal = nextInt()
         val matrix = Array(height) { Array(width) { Pixel(0,0,0) } }
         for(y in 0 until height){
             for(x in 0 until width){
-                if(scanner.hasNext()){
-                    val pixelR = nextElement().toInt()
-                    matrix[y][x] = Pixel(pixelR, pixelR, pixelR)
-                }
+                val pixel = (nextInt()*255)/maxVal
+                matrix[y][x] = Pixel(pixel, pixel, pixel)
             }
         }
-        scanner.close()
+        reader.close()
         pixels = matrix
     }
     private fun loadImageFromPBM(file: File){
-        val scanner = Scanner(file)
-        fun nextElement(): String{
-            while (scanner.hasNext()){
-                val pixel = scanner.next()
-                if (pixel.startsWith("#")){
-                    scanner.nextLine()
-                    continue
-                }
-                return pixel
-            }
-            throw Exception("Archivo Corrupto")
+        val reader = BufferedReader(FileReader(file))
+        val tokenizer = StreamTokenizer(reader)
+        tokenizer.commentChar('#'.code)
+        fun nextInt(): Int {
+            if (tokenizer.nextToken() == StreamTokenizer.TT_EOF)
+                throw Exception("Archivo incompleto")
+            return tokenizer.nval.toInt()
         }
-        val header = nextElement()
+        fun nextString(): String {
+            if (tokenizer.nextToken() == StreamTokenizer.TT_EOF)
+                throw Exception("Archivo incompleto")
+            return tokenizer.sval ?: ""
+        }
+        val header = nextString()
         if(header != "P1"){
             throw Exception("Codificacion no Soportada")
         }
-        width = nextElement().toInt()
-        height = nextElement().toInt()
+        width = nextInt()
+        height = nextInt()
         val matrix = Array(height) { Array(width) { Pixel(0,0,0) } }
         for(y in 0 until height){
             for(x in 0 until width){
-                if(scanner.hasNext()){
-                    val pixelR = nextElement().toInt()
-                    if (pixelR == 0){
-                        matrix[y][x] = Pixel(0,0,0)
-                    }else{
-                        matrix[y][x] = Pixel(255,255,255)
-                    }
-
+                val pixelR = nextInt()
+                if (pixelR == 0){
+                    matrix[y][x] = Pixel(0,0,0)
+                }else{
+                    matrix[y][x] = Pixel(255,255,255)
                 }
             }
         }
-        scanner.close()
+        reader.close()
         pixels = matrix
     }
     private fun loadImageFromPPM(file: File){
-        val scanner = Scanner(file)
-        fun nextElement(): String{
-            while (scanner.hasNext()){
-                val pixel = scanner.next()
-                if (pixel.startsWith("#")){
-                    scanner.nextLine()
-                    continue
-                }
-                return pixel
-            }
-            throw Exception("Archivo Corrupto")
+        val reader = BufferedReader(FileReader(file))
+        val tokenizer = StreamTokenizer(reader)
+        tokenizer.commentChar('#'.code)
+        fun nextInt(): Int {
+            if (tokenizer.nextToken() == StreamTokenizer.TT_EOF)
+                throw Exception("Archivo incompleto")
+            return tokenizer.nval.toInt()
         }
-        val header = nextElement()
+        fun nextString(): String {
+            if (tokenizer.nextToken() == StreamTokenizer.TT_EOF)
+                throw Exception("Archivo incompleto")
+            return tokenizer.sval ?: ""
+        }
+        val header = nextString()
         if(header != "P3"){
             throw Exception("Codificacion no Soportada")
         }
-        width = nextElement().toInt()
-        height = nextElement().toInt()
-        maxVal = nextElement().toInt()
+        width = nextInt()
+        height = nextInt()
+        maxVal = nextInt()
         val matrix = Array(height) { Array(width) { Pixel(0,0,0) } }
         for(y in 0 until height){
             for(x in 0 until width){
-                if(scanner.hasNext()){
-                    val pixelR = nextElement().toInt()
-                    val pixelG = nextElement().toInt()
-                    val pixelB = nextElement().toInt()
-                    matrix[y][x] = Pixel(pixelR, pixelG, pixelB)
-                }
+                val pixelR = nextInt()
+                val pixelG = nextInt()
+                val pixelB = nextInt()
+                matrix[y][x] = Pixel(pixelR, pixelG, pixelB)
             }
         }
-        scanner.close()
+        reader.close()
         pixels = matrix
     }
     fun matrixToImage(): Image{
