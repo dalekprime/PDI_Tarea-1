@@ -1,0 +1,7 @@
+.chart-series-area-line {
+    -fx-stroke-width: 1px;
+}
+
+.chart-series-area-fill {
+    -fx-opacity: 0;
+}

@@ -4,11 +4,13 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.chart.AreaChart
 import javafx.scene.chart.LineChart
+import javafx.scene.chart.XYChart
 import javafx.scene.control.Accordion
 import javafx.scene.control.ColorPicker
 import javafx.scene.control.Label
 import javafx.scene.control.RadioButton
 import javafx.scene.control.Slider
+import javafx.scene.control.TextField
 import javafx.scene.control.TitledPane
 import javafx.scene.control.ToggleButton
 import javafx.scene.control.ToggleGroup
@@ -161,7 +163,6 @@ class BasicViewController {
         imageController.changeView(matrixImage!!)
     }
 
-
     @FXML
     private lateinit var  lightSlider: Slider
     @FXML
@@ -178,4 +179,46 @@ class BasicViewController {
         }
         imageController.changeView(matrixImage!!)
     }
+
+    @FXML
+    private lateinit var contrastSlider: Slider
+    @FXML
+    fun onConstrastButtonClick(event: ActionEvent) {
+        val change = contrastSlider.value
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                matrixImage!!.pixels[y][x].r = (((originalImage!!.pixels[y][x].r - 128) * change) + 128).coerceIn(0.0, 255.0).toInt()
+                matrixImage!!.pixels[y][x].g = (((originalImage!!.pixels[y][x].g - 128) * change) + 128).coerceIn(0.0, 255.0).toInt()
+                matrixImage!!.pixels[y][x].b = (((originalImage!!.pixels[y][x].b - 128) * change) + 128).coerceIn(0.0, 255.0).toInt()
+            }
+        }
+        imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    private lateinit var perfilAreaChart: AreaChart<Number, Number>
+    @FXML
+    private lateinit var perfilText: TextField
+    @FXML
+    fun onPerfilButtonClick(event: ActionEvent) {
+        matrixImage?:return
+        val width = matrixImage!!.width
+        val line = perfilText.text.toIntOrNull()
+        line?:return
+        if (line < 0 || line >= (matrixImage!!.height)) {
+            println("Error: La línea $line no existe")
+            return
+        }
+        val series = XYChart.Series<Number, Number>()
+        series.name = "Fila $line"
+        for (x in 0 until width) {
+            series.data.add(XYChart.Data(x, matrixImage!!.pixels[line][x].r))
+        }
+        perfilAreaChart.data.clear()
+        perfilAreaChart.data.add(series)
+    }
+
+
 }
