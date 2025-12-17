@@ -11,6 +11,7 @@ class ImageMatrix {
     var width = 0
     var height = 0
     var maxVal = 0
+    var header = ""
     lateinit var pixels: Array<Array<Pixel>>
 
     constructor(width: Int, height: Int) {
@@ -26,13 +27,15 @@ class ImageMatrix {
             "pgm" -> loadImageFromPGM(file)
             "pbm" -> loadImageFromPBM(file)
             "ppm" -> loadImageFromPPM(file)
-            else -> return
+            else -> throw IllegalArgumentException("Extensión no soportada: $ext")
         }
     }
     private fun loadImageFromPNG(file: File){
         val image = Image(file.toURI().toString())
         width = image.width.toInt()
         height = image.height.toInt()
+        maxVal = 255
+        header = "PNG/BMP"
         val pixelReader = image.pixelReader
         val matrix = Array(height) { Array(width) { Pixel(0,0,0) } }
         for(y in 0 until height){
@@ -60,7 +63,7 @@ class ImageMatrix {
                 throw Exception("Archivo incompleto")
             return tokenizer.sval ?: ""
         }
-        val header = nextString()
+        header = nextString()
         if(header != "P2"){
             throw Exception("Codificacion no Soportada")
         }
@@ -80,6 +83,7 @@ class ImageMatrix {
     private fun loadImageFromPBM(file: File){
         val reader = BufferedReader(FileReader(file))
         val tokenizer = StreamTokenizer(reader)
+        maxVal = 1
         tokenizer.commentChar('#'.code)
         fun nextInt(): Int {
             if (tokenizer.nextToken() == StreamTokenizer.TT_EOF)
@@ -91,7 +95,7 @@ class ImageMatrix {
                 throw Exception("Archivo incompleto")
             return tokenizer.sval ?: ""
         }
-        val header = nextString()
+        header = nextString()
         if(header != "P1"){
             throw Exception("Codificacion no Soportada")
         }
@@ -102,9 +106,9 @@ class ImageMatrix {
             for(x in 0 until width){
                 val pixelR = nextInt()
                 if (pixelR == 0){
-                    matrix[y][x] = Pixel(0,0,0)
-                }else{
                     matrix[y][x] = Pixel(255,255,255)
+                }else{
+                    matrix[y][x] = Pixel(0,0,0)
                 }
             }
         }
@@ -125,7 +129,7 @@ class ImageMatrix {
                 throw Exception("Archivo incompleto")
             return tokenizer.sval ?: ""
         }
-        val header = nextString()
+        header = nextString()
         if(header != "P3"){
             throw Exception("Codificacion no Soportada")
         }
@@ -165,5 +169,17 @@ class ImageMatrix {
             }
             println()
         }
+    }
+    fun copy(): ImageMatrix{
+        val matrixCopy = ImageMatrix(width, height)
+        matrixCopy.pixels = Array(height) {
+            y -> Array(width) {
+                x -> val p = pixels[y][x]
+                Pixel(p.r, p.g, p.b)
+            }
+        }
+        matrixCopy.maxVal = maxVal
+        matrixCopy.header = header
+        return matrixCopy
     }
 }

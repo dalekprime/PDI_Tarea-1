@@ -10,14 +10,25 @@ import java.io.File
 
 class ImageStateController {
 
+    //Referencias a Información Externa
     private var stage: Stage
     private var dataLabel: Label
     private var imageView: ImageView
 
-    constructor(stage: Stage, label: Label, view: ImageView) {
+    //Referencias a los controladores de Gráficos e Información
+    private var chartController: ChartStateController
+    private var dataController: DataStateController
+
+    //Imagen Inicial
+    private lateinit var matrixImageOriginal: ImageMatrix
+
+    constructor(stage: Stage, label: Label, view: ImageView,
+                chartController: ChartStateController, dataController: DataStateController) {
         this.stage = stage
         this.dataLabel = label
         this.imageView = view
+        this.chartController = chartController
+        this.dataController = dataController
     }
     fun loadNewImage(): ImageMatrix?{
         val fileChooser = FileChooser().apply{
@@ -36,12 +47,18 @@ class ImageStateController {
             dataLabel.text = "Imagen Invalida"
             return null
         }
-        dataLabel.text = "Imagen Cargada... ${file.absolutePath}"
+        dataLabel.text = "Imagen Cargada... ${file.name}"
         val matrixImage =  ImageMatrix(file)
-        imageView.image = matrixImage.matrixToImage()
+        matrixImageOriginal = matrixImage.copy()
+        changeView(matrixImage)
         return matrixImage
     }
-    fun changeView(image: Image){
-        imageView.image = image
+    fun changeView(imageMatrix: ImageMatrix){
+        imageView.image = imageMatrix.matrixToImage()
+        //Crear primeros gráficos
+        chartController.updateHistogram(imageMatrix, "R")
+        chartController.updateCurve(matrixImageOriginal,imageMatrix, "R")
+        //Crear la información Inicial
+        dataController.update(imageMatrix)
     }
 }

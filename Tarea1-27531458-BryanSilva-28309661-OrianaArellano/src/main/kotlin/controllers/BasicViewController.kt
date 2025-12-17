@@ -1,18 +1,18 @@
 package controllers
 
-
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.chart.AreaChart
 import javafx.scene.chart.LineChart
+import javafx.scene.control.Accordion
 import javafx.scene.control.Label
 import javafx.scene.control.RadioButton
 import javafx.scene.control.Slider
+import javafx.scene.control.TitledPane
 import javafx.scene.control.ToggleGroup
 import javafx.scene.image.ImageView
 import javafx.stage.Stage
 import models.ImageMatrix
-
 
 class BasicViewController {
 
@@ -25,7 +25,7 @@ class BasicViewController {
     private lateinit var histogramChart: AreaChart<Number, Number>
 
     @FXML
-    private lateinit var toneCurveChat: LineChart<Number, Number>
+    private lateinit var toneCurveChart: LineChart<Number, Number>
 
     @FXML
     private lateinit var applicationConsole: Label
@@ -33,27 +33,51 @@ class BasicViewController {
     @FXML
     private lateinit var mainImageView: ImageView
 
-    private lateinit var chartController: ChartsController
+    @FXML
+    private lateinit var bppImage: Label
+
+    @FXML
+    private lateinit var colorsImage: Label
+
+    @FXML
+    private lateinit var dimImage: Label
+
+    private lateinit var chartController: ChartStateController
+    private lateinit var imageController: ImageStateController
+    private lateinit var dataController: DataStateController
 
     private var matrixImage: ImageMatrix? = null
 
+    //Estado del canal visualizado en el Histograma
     @FXML
     private lateinit var histogram: ToggleGroup
     @FXML
     fun onRadioHistogramClick(event: ActionEvent) {
         val channel = (histogram.selectedToggle as RadioButton).text
-        chartController.update(matrixImage, channel)
-
+        chartController.updateHistogram(matrixImage, channel)
     }
 
+    //Leer la imagen y setea el estado inicial de la aplicacion
     @FXML
     fun onLoadImageClick(event: ActionEvent) {
-        val controller = ImageStateController(stage,applicationConsole, mainImageView)
-        chartController = ChartsController(histogramChart, toneCurveChat)
-        matrixImage = controller.loadNewImage()
-        chartController.update(matrixImage, "R")
-        chartController.updateCurve(matrixImage,matrixImage, "R")
+        //Controladores de Imagen, Gráficos e Información
+        chartController = ChartStateController(histogramChart, toneCurveChart)
+        dataController = DataStateController(dimImage, colorsImage, bppImage)
+        imageController = ImageStateController(stage,applicationConsole, mainImageView, chartController, dataController)
+        //Leer Imagen Inicial
+        matrixImage = imageController.loadNewImage()
     }
+
+    //Inicializar estado
+    @FXML
+    private lateinit var dataPanel: TitledPane
+    @FXML
+    private lateinit var rightAccordion: Accordion
+    @FXML
+    fun initialize() {
+        rightAccordion.expandedPane = dataPanel
+    }
+
 
     @FXML
     private lateinit var umbralSlider: Slider
@@ -68,15 +92,14 @@ class BasicViewController {
                     matrixImage!!.pixels[y][x].r = 0
                     matrixImage!!.pixels[y][x].g = 0
                     matrixImage!!.pixels[y][x].b = 0
-                }else {
+                }else{
                     matrixImage!!.pixels[y][x].r = 255
                     matrixImage!!.pixels[y][x].g = 255
                     matrixImage!!.pixels[y][x].b = 255
                 }
             }
         }
-        val imageNew = matrixImage!!.matrixToImage()
-        mainImageView.image = imageNew
+        imageController.changeView(matrixImage!!)
     }
 
     @FXML
@@ -90,8 +113,7 @@ class BasicViewController {
                 matrixImage!!.pixels[y][x].b = 225 - matrixImage!!.pixels[y][x].b
             }
         }
-        val imageNew = matrixImage!!.matrixToImage()
-        mainImageView.image = imageNew
+        imageController.changeView(matrixImage!!)
     }
 
     @FXML
@@ -106,8 +128,7 @@ class BasicViewController {
                 matrixImage!!.pixels[y][x].b = greyColor.toInt()
             }
         }
-        val imageNew = matrixImage!!.matrixToImage()
-        mainImageView.image = imageNew
+        imageController.changeView(matrixImage!!)
     }
 
     @FXML
@@ -124,7 +145,6 @@ class BasicViewController {
                 matrixImage!!.pixels[y][x].b = (matrixImage!!.pixels[y][x].b + change).coerceIn(0, 255)
             }
         }
-        val imageNew = matrixImage!!.matrixToImage()
-        mainImageView.image = imageNew
+        imageController.changeView(matrixImage!!)
     }
 }
