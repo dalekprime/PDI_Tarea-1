@@ -129,122 +129,152 @@
                   <ImageView fx:id="mainImageView" fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" smooth="false" />
                </children>
             </StackPane>
-            <Accordion style="-fx-background-color: #566985;">
-               <panes>
-                  <TitledPane animated="false" text="Contextual">
-                     <content>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #566985;" />
-                     </content>
-                  </TitledPane>
-                  <TitledPane animated="false" prefHeight="352.0" prefWidth="200.0" text="Data">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #566985;">
-                           <children>
-                              <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
-                                <tabs>
-                                  <Tab text="Curva Tonal">
-                                       <content>
-                                          <VBox prefHeight="172.0" prefWidth="200.0">
-                                             <children>
-                                                <LineChart fx:id="toneCurveChat">
-                                                  <xAxis>
-                                                    <NumberAxis autoRanging="false" label="Entrada" side="BOTTOM" tickUnit="50" upperBound="255" />
-                                                  </xAxis>
-                                                  <yAxis>
-                                                    <NumberAxis autoRanging="false" label="Salida" side="LEFT" tickUnit="50" upperBound="255" />
-                                                  </yAxis>
-                                                </LineChart>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <VBox alignment="BOTTOM_LEFT" prefHeight="548.0" prefWidth="202.0" style="-fx-background-color: #3F4B5C;">
+               <children>
+                  <AnchorPane prefHeight="98.0" prefWidth="202.0">
+                     <children>
+                        <Label fx:id="dimImage" layoutX="11.0" layoutY="5.0" text="Dimensiones: 0 x 0" textFill="WHITE">
+                           <font>
+                              <Font name="Arial Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="bppImage" layoutX="11.0" layoutY="49.0" text="Bpp: 0" textFill="WHITE">
+                           <font>
+                              <Font name="Arial Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="colorsImage" layoutX="11.0" layoutY="27.0" text="#Colores: 0" textFill="WHITE">
+                           <font>
+                              <Font name="Arial Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </AnchorPane>
+                  <Accordion fx:id="rightAccordion" prefHeight="503.0" prefWidth="202.0" style="-fx-background-color: #566985;">
+                     <panes>
+                        <TitledPane animated="false" expanded="false" prefHeight="444.0" prefWidth="202.0" text="Contextual">
+                           <content>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #566985;" />
+                           </content>
+                        </TitledPane>
+                        <TitledPane fx:id="dataPanel" animated="false" expanded="true" prefHeight="352.0" prefWidth="200.0" text="Data">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="417.0" prefWidth="200.0" style="-fx-background-color: #566985;">
+                                 <children>
+                                    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                                      <tabs>
+                                        <Tab text="Histograma">
+                                             <content>
+                                                <VBox prefHeight="200.0" prefWidth="100.0">
                                                    <children>
-                                                      <RadioButton mnemonicParsing="false" selected="true" text="R">
-                                                         <font>
-                                                            <Font size="10.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" right="5.0" />
-                                                         </HBox.margin>
-                                                         <toggleGroup>
-                                                            <ToggleGroup fx:id="tonalCurve" />
-                                                         </toggleGroup></RadioButton>
-                                                      <RadioButton mnemonicParsing="false" text="G" toggleGroup="$tonalCurve">
-                                                         <font>
-                                                            <Font size="10.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" right="5.0" />
-                                                         </HBox.margin></RadioButton>
-                                                      <RadioButton mnemonicParsing="false" text="B" toggleGroup="$tonalCurve">
-                                                         <font>
-                                                            <Font size="10.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" right="5.0" />
-                                                         </HBox.margin></RadioButton>
+                                                       <AreaChart fx:id="histogramChart" animated="false" createSymbols="false" legendVisible="false">
+                                                           <xAxis>
+                                                               <NumberAxis autoRanging="false" label="Valor (0-255)" side="BOTTOM" upperBound="255" />
+                                                           </xAxis>
+                                                           <yAxis>
+                                                               <NumberAxis label="Frecuencia" side="LEFT" />
+                                                           </yAxis>
+                                                       </AreaChart>
+                                                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <RadioButton mnemonicParsing="false" onAction="#onRadioHistogramClick" selected="true" text="R">
+                                                               <font>
+                                                                  <Font size="10.0" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" right="5.0" />
+                                                               </HBox.margin>
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="histogram" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
+                                                            <RadioButton mnemonicParsing="false" onAction="#onRadioHistogramClick" text="G" toggleGroup="$histogram">
+                                                               <font>
+                                                                  <Font size="10.0" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" right="5.0" />
+                                                               </HBox.margin>
+                                                            </RadioButton>
+                                                            <RadioButton mnemonicParsing="false" onAction="#onRadioHistogramClick" text="B" toggleGroup="$histogram">
+                                                               <font>
+                                                                  <Font size="10.0" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" right="5.0" />
+                                                               </HBox.margin>
+                                                            </RadioButton>
+                                                         </children>
+                                                      </HBox>
                                                    </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </content>
-                                  </Tab>
-                                  <Tab text="Histograma">
-                                       <content>
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
-                                             <children>
-                                                 <AreaChart fx:id="histogramChart" animated="false" createSymbols="false" legendVisible="false">
-                                                     <xAxis>
-                                                         <NumberAxis autoRanging="false" label="Valor (0-255)" side="BOTTOM" upperBound="255" />
-                                                     </xAxis>
-                                                     <yAxis>
-                                                         <NumberAxis label="Frecuencia" side="LEFT" />
-                                                     </yAxis>
-                                                 </AreaChart>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                                </VBox>
+                                             </content>
+                                        </Tab>
+                                        <Tab text="Curva Tonal">
+                                             <content>
+                                                <VBox prefHeight="172.0" prefWidth="200.0">
                                                    <children>
-                                                      <RadioButton mnemonicParsing="false" onAction="#onRadioHistogramClick" selected="true" text="R">
-                                                         <font>
-                                                            <Font size="10.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" right="5.0" />
-                                                         </HBox.margin>
-                                                         <toggleGroup>
-                                                            <ToggleGroup fx:id="histogram" />
-                                                         </toggleGroup>
-                                                      </RadioButton>
-                                                      <RadioButton mnemonicParsing="false" onAction="#onRadioHistogramClick" text="G" toggleGroup="$histogram">
-                                                         <font>
-                                                            <Font size="10.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" right="5.0" />
-                                                         </HBox.margin>
-                                                      </RadioButton>
-                                                      <RadioButton mnemonicParsing="false" onAction="#onRadioHistogramClick" text="B" toggleGroup="$histogram">
-                                                         <font>
-                                                            <Font size="10.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" right="5.0" />
-                                                         </HBox.margin>
-                                                      </RadioButton>
+                                                      <LineChart fx:id="toneCurveChart" animated="false" createSymbols="false">
+                                                        <xAxis>
+                                                          <NumberAxis autoRanging="false" label="Entrada" side="BOTTOM" tickUnit="50" upperBound="255" />
+                                                        </xAxis>
+                                                        <yAxis>
+                                                          <NumberAxis autoRanging="false" label="Salida" side="LEFT" tickUnit="50" upperBound="255" />
+                                                        </yAxis>
+                                                      </LineChart>
+                                                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <RadioButton mnemonicParsing="false" selected="true" text="R">
+                                                               <font>
+                                                                  <Font size="10.0" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" right="5.0" />
+                                                               </HBox.margin>
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="tonalCurve" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
+                                                            <RadioButton mnemonicParsing="false" text="G" toggleGroup="$tonalCurve">
+                                                               <font>
+                                                                  <Font size="10.0" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" right="5.0" />
+                                                               </HBox.margin>
+                                                            </RadioButton>
+                                                            <RadioButton mnemonicParsing="false" text="B" toggleGroup="$tonalCurve">
+                                                               <font>
+                                                                  <Font size="10.0" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" right="5.0" />
+                                                               </HBox.margin>
+                                                            </RadioButton>
+                                                         </children>
+                                                      </HBox>
                                                    </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </content>
-                                  </Tab>
-                                    <Tab text="Info">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                      </content>
-                                    </Tab>
-                                </tabs>
-                              </TabPane>
-                           </children></AnchorPane>
-                    </content>
-                  </TitledPane>
-               </panes>
-            </Accordion>
+                                                </VBox>
+                                             </content>
+                                        </Tab>
+                                          <Tab text="Info">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                            </content>
+                                          </Tab>
+                                      </tabs>
+                                    </TabPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </TitledPane>
+                     </panes>
+                  </Accordion>
+               </children>
+            </VBox>
          </children>
       </HBox>
       <TilePane prefHeight="64.0" prefWidth="800.0" style="-fx-background-color: #D7D7D7; -fx-border-color: #B5B5B5; -fx-padding: 5;">

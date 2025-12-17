@@ -5,16 +5,18 @@ import javafx.scene.chart.LineChart
 import javafx.scene.chart.XYChart
 import models.ImageMatrix
 
-class ChartsController {
+class ChartStateController {
 
+    //Referencias a los gráficos
     private var histogramChart: AreaChart<Number, Number>
-    private var toneCurveChat: LineChart<Number, Number>
+    private var toneCurveChart: LineChart<Number, Number>
 
-    constructor(histogramChart: AreaChart<Number, Number>, toneCurveChat: LineChart<Number, Number>) {
+    constructor(histogramChart: AreaChart<Number, Number>, toneCurveChart: LineChart<Number, Number>) {
         this.histogramChart = histogramChart
-        this.toneCurveChat = toneCurveChat
+        this.toneCurveChart = toneCurveChart
     }
-    fun update(imageMatrix: ImageMatrix?, channel: String) {
+    //Actualiza el Histograma
+    fun updateHistogram(imageMatrix: ImageMatrix?, channel: String) {
         imageMatrix?:return
         val frequency = IntArray(256)
         val width = imageMatrix.width
@@ -27,7 +29,7 @@ class ChartsController {
                     "B" -> imageMatrix.pixels[y][x].b
                     else -> -1
                 }
-                frequency[color] += 1
+                frequency[color.coerceIn(0,255)] += 1
             }
         }
         val series = XYChart.Series<Number, Number>()
@@ -37,36 +39,41 @@ class ChartsController {
         histogramChart.data.clear()
         histogramChart.data.add(series)
     }
+    //Actualiza la Curva Tonal
     fun updateCurve(originalImage: ImageMatrix?, actualImage: ImageMatrix?, channel: String) {
-        originalImage?:return
-        actualImage?:return
-        val frequency1 = IntArray(256)
-        val frequency2 = IntArray(256)
+        originalImage ?: return
+        actualImage ?: return
+        val lookupTable = IntArray(256) { -1 }
         val width = originalImage.width
         val height = originalImage.height
         for (y in 0 until height) {
             for (x in 0 until width) {
-                val color1: Int = when (channel) {
+                val valOriginal: Int = when (channel) {
                     "R" -> originalImage.pixels[y][x].r
                     "G" -> originalImage.pixels[y][x].g
                     "B" -> originalImage.pixels[y][x].b
                     else -> -1
                 }
-                val color2: Int = when (channel) {
+                val valNuevo: Int = when (channel) {
                     "R" -> actualImage.pixels[y][x].r
                     "G" -> actualImage.pixels[y][x].g
                     "B" -> actualImage.pixels[y][x].b
                     else -> -1
                 }
-                frequency1[color1] += 1
-                frequency2[color2] += 1
+                if (valOriginal in 0..255 && valNuevo != -1) {
+                    val safeNuevo = valNuevo.coerceIn(0, 255)
+                    lookupTable[valOriginal] = safeNuevo
+                }
             }
         }
         val series = XYChart.Series<Number, Number>()
-        for (i in 0 until 256) {
-            series.data.add(XYChart.Data(frequency1[i], frequency2[i]))
+        for (inputVal in 0 until 256) {
+            val outputVal = lookupTable[inputVal]
+            if (outputVal != -1) {
+                series.data.add(XYChart.Data(inputVal, outputVal))
+            }
         }
-        toneCurveChat.data.clear()
-        toneCurveChat.data.add(series)
+        toneCurveChart.data.clear()
+        toneCurveChart.data.add(series)
     }
 }
