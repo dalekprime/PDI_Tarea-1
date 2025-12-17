@@ -27,12 +27,8 @@ class ImageMatrix {
             "pgm" -> loadImageFromPGM(file)
             "pbm" -> loadImageFromPBM(file)
             "ppm" -> loadImageFromPPM(file)
-<<<<<<< HEAD
             "rle" -> loadImageFromRLE(file)
-            else -> return
-=======
             else -> throw IllegalArgumentException("Extensión no soportada: $ext")
->>>>>>> 84ae59b34643bdd3abc61f90cffad614f5bbe950
         }
     }
     private fun loadImageFromPNG(file: File){

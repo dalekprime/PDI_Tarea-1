@@ -16,6 +16,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -60,10 +61,10 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #566985;">
                                        <children>
-                                          <Button layoutX="8.0" layoutY="6.0" mnemonicParsing="false" onAction="#onGreyscaleButtonClick" prefHeight="25.0" prefWidth="80.0" text="GrayScale" />
-                                          <ColorPicker layoutX="8.0" layoutY="39.0" />
-                                          <Button layoutX="8.0" layoutY="74.0" mnemonicParsing="false" text="Color Scale" />
-                                          <Button layoutX="16.0" layoutY="141.0" mnemonicParsing="false" onAction="#onNegativeButtonClick" text="Negativo" />
+                                          <ColorPicker fx:id="colorScalePicker" layoutX="8.0" layoutY="49.0" />
+                                          <Button layoutX="8.0" layoutY="86.0" mnemonicParsing="false" onAction="#onColorScalePickerClick" text="Color Scale" />
+                                          <ToggleButton layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#onGreyscaleButtonClick" text="GrayScale" />
+                                          <ToggleButton layoutX="9.0" layoutY="123.0" mnemonicParsing="false" onAction="#onNegativeButtonClick" text="Negativo" />
                                        </children>
                                     </AnchorPane>
                                  </content>

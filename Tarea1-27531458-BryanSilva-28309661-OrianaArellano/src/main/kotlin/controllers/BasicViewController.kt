@@ -5,10 +5,12 @@ import javafx.fxml.FXML
 import javafx.scene.chart.AreaChart
 import javafx.scene.chart.LineChart
 import javafx.scene.control.Accordion
+import javafx.scene.control.ColorPicker
 import javafx.scene.control.Label
 import javafx.scene.control.RadioButton
 import javafx.scene.control.Slider
 import javafx.scene.control.TitledPane
+import javafx.scene.control.ToggleButton
 import javafx.scene.control.ToggleGroup
 import javafx.scene.image.ImageView
 import javafx.stage.Stage
@@ -47,6 +49,7 @@ class BasicViewController {
     private lateinit var dataController: DataStateController
 
     private var matrixImage: ImageMatrix? = null
+    private var originalImage: ImageMatrix? = null
 
     //Estado del canal visualizado en el Histograma
     @FXML
@@ -64,8 +67,9 @@ class BasicViewController {
         chartController = ChartStateController(histogramChart, toneCurveChart)
         dataController = DataStateController(dimImage, colorsImage, bppImage)
         imageController = ImageStateController(stage,applicationConsole, mainImageView, chartController, dataController)
-        //Leer Imagen Inicial
+        //Leer Imagen Inicial y crea una copia
         matrixImage = imageController.loadNewImage()
+        originalImage = matrixImage!!.copy()
     }
 
     //Inicializar estado
@@ -130,6 +134,33 @@ class BasicViewController {
         }
         imageController.changeView(matrixImage!!)
     }
+
+    @FXML
+    private lateinit var colorScalePicker: ColorPicker
+    @FXML
+    fun onColorScalePickerClick(event: ActionEvent) {
+        val r = (colorScalePicker.value.red * 255.0).toInt()
+        val g = (colorScalePicker.value.green * 255.0).toInt()
+        val b = (colorScalePicker.value.blue * 255.0).toInt()
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                val greyColor = (0.299*originalImage!!.pixels[y][x].r + 0.587*originalImage!!.pixels[y][x].g + 0.114*originalImage!!.pixels[y][x].b).toInt()
+                if(greyColor < 128){
+                    matrixImage!!.pixels[y][x].r = r * greyColor/128
+                    matrixImage!!.pixels[y][x].g = g * greyColor/128
+                    matrixImage!!.pixels[y][x].b = b * greyColor/128
+                }else{
+                    matrixImage!!.pixels[y][x].r = r + (255 - r)*(greyColor - 128)/128
+                    matrixImage!!.pixels[y][x].g = g + (255 - g)*(greyColor - 128)/128
+                    matrixImage!!.pixels[y][x].b = b + (255 - b)*(greyColor - 128)/128
+                }
+            }
+        }
+        imageController.changeView(matrixImage!!)
+    }
+
 
     @FXML
     private lateinit var  lightSlider: Slider

@@ -46,5 +46,4 @@ class DataStateController {
         }
         bppImage.text = "Bpp: $bbp"
     }
-
 }
