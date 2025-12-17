@@ -24,7 +24,7 @@ class ImageStateController {
             title = "Selecionar Imagen"
             extensionFilters.add(FileChooser.ExtensionFilter(
                 "Imagen",
-                "*.png", "*.ppm", "*.pgm", "*.pbm", "*.bmp"))
+                "*.png", "*.ppm", "*.pgm", "*.pbm", "*.bmp", "*.rle"))
             initialDirectory = File(System.getProperty("user.dir")+"/imagesTest")
         }
         val file: File? = fileChooser.showOpenDialog(stage)
@@ -32,7 +32,7 @@ class ImageStateController {
             dataLabel.text = "No se selecciono imagen"
             return null
         }
-        if (!file.exists() or ((file.extension.lowercase()) !in setOf("png", "ppm", "pgm", "pbm", "bmp"))) {
+        if (!file.exists() or ((file.extension.lowercase()) !in setOf("png", "ppm", "pgm", "pbm", "bmp", "rle"))) {
             dataLabel.text = "Imagen Invalida"
             return null
         }

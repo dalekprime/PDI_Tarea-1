@@ -26,6 +26,7 @@ class ImageMatrix {
             "pgm" -> loadImageFromPGM(file)
             "pbm" -> loadImageFromPBM(file)
             "ppm" -> loadImageFromPPM(file)
+            "rle" -> loadImageFromRLE(file)
             else -> return
         }
     }
@@ -144,6 +145,82 @@ class ImageMatrix {
         reader.close()
         pixels = matrix
     }
+    private fun loadImageFromRLE(file: File){
+        val reader = BufferedReader(FileReader(file))
+        val tokenizer = StreamTokenizer(reader)
+        tokenizer.commentChar('#'.code)
+
+        fun nextInt(): Int {
+            if (tokenizer.nextToken() == StreamTokenizer.TT_EOF)
+                throw Exception("Archivo incompleto")
+            return tokenizer.nval.toInt()
+        }
+
+        fun nextString(): String {
+            if (tokenizer.nextToken() == StreamTokenizer.TT_EOF)
+                throw Exception("Archivo incompleto")
+            return tokenizer.sval ?: ""
+        }
+
+        val header = nextString()
+        if(header !in listOf("P1","P2","P3")){
+            throw Exception("Codificación RLE no soportada")
+        }
+
+        width = nextInt()
+        height = nextInt()
+        maxVal = nextInt()
+
+        val matrix = Array(height) { Array(width) { Pixel(0,0,0) } }
+        var x = 0
+        var y = 0
+        var filled = 0
+        val totalPixels = width * height
+
+        while(filled < totalPixels){
+            when(header){
+                "P1" -> {
+                    val value = nextInt()
+                    val count = nextInt()
+                    val pixel = if (value == 0) Pixel(0, 0, 0) else Pixel(255, 255, 255)
+
+                    repeat(count){
+                        if (filled >= totalPixels) throw Exception("Archivo excede dimensiones declaradas")
+                        matrix[y][x] = pixel
+                        x++; filled++
+                        if (x >= width) { x = 0; y++ }
+                    }
+                }
+                "P2" -> {
+                    val gray = nextInt()
+                    val count = nextInt()
+                    val pixelVal = (gray*255)/maxVal
+                    repeat(count){
+                        if(filled >= totalPixels) throw Exception("Archivo excede dimensiones declaradas")
+                        matrix[y][x] = Pixel(pixelVal,pixelVal,pixelVal)
+                        x++; filled++
+                        if(x >= width){ x = 0; y++ }
+                    }
+                }
+                "P3" -> {
+                    val r = nextInt()
+                    val g = nextInt()
+                    val b = nextInt()
+                    val count = nextInt()
+                    repeat(count){
+                        if(filled >= totalPixels) throw Exception("Archivo excede dimensiones declaradas")
+                        matrix[y][x] = Pixel(r,g,b)
+                        x++; filled++
+                        if(x >= width){ x = 0; y++ }
+                    }
+                }
+            }
+        }
+
+        reader.close()
+        pixels = matrix
+    }
+
     fun matrixToImage(): Image{
         val outputImage = WritableImage(width, height)
         val writer = outputImage.pixelWriter
