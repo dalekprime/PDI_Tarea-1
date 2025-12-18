@@ -15,7 +15,6 @@ class Kernel {
         this.width = width
         matrix = Array(height) { Array(width) { 0.0 } }
     }
-
     constructor(file: File){
         var ele = Scanner(file)
         this.height = ele.nextLine().toInt()

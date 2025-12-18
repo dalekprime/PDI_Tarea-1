@@ -1,4 +1,4 @@
-package controllers
+package actions
 
 import models.ImageMatrix
 import models.Kernel

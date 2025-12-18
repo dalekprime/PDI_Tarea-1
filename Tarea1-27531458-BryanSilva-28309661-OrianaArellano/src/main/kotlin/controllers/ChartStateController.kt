@@ -10,10 +10,14 @@ class ChartStateController {
     //Referencias a los gráficos
     private var histogramChart: AreaChart<Number, Number>
     private var toneCurveChart: LineChart<Number, Number>
+    private var perfilerChart: AreaChart<Number, Number>
 
-    constructor(histogramChart: AreaChart<Number, Number>, toneCurveChart: LineChart<Number, Number>) {
+    constructor(histogramChart: AreaChart<Number, Number>,
+                toneCurveChart: LineChart<Number, Number>,
+                perfilerChart: AreaChart<Number, Number>) {
         this.histogramChart = histogramChart
         this.toneCurveChart = toneCurveChart
+        this.perfilerChart = perfilerChart
     }
     //Actualiza el Histograma
     fun updateHistogram(imageMatrix: ImageMatrix?, channel: String) {
@@ -75,5 +79,27 @@ class ChartStateController {
         }
         toneCurveChart.data.clear()
         toneCurveChart.data.add(series)
+    }
+    //Actuliza el Perfil de la Imagen
+    fun updatePerfil(imageMatrix: ImageMatrix?, line: Int, channel: String) {
+        imageMatrix?: return
+        val width = imageMatrix.width
+        if (line < 0 || line >= (imageMatrix.height)) {
+            println("Error: La línea $line no existe")
+            return
+        }
+        val series = XYChart.Series<Number, Number>()
+        series.name = "Fila $line"
+        for (x in 0 until width) {
+            val color: Int = when (channel) {
+                "R" -> imageMatrix.pixels[line][x].r
+                "G" -> imageMatrix.pixels[line][x].g
+                "B" -> imageMatrix.pixels[line][x].b
+                else -> -1
+            }
+            series.data.add(XYChart.Data(x, color))
+        }
+        perfilerChart.data.clear()
+        perfilerChart.data.add(series)
     }
 }

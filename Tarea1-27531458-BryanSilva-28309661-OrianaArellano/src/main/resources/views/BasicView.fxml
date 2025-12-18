@@ -40,7 +40,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Editar">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" text="Original" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Extras">
@@ -82,7 +82,7 @@
                                         <Button layoutX="14.0" layoutY="52.0" mnemonicParsing="false" onAction="#onRotation180Click" text="Rotacion 180" />
                                         <Button layoutX="14.0" layoutY="91.0" mnemonicParsing="false" onAction="#onRotation270Click" text="Rotacion 270" />
                                         <Button layoutX="14.0" layoutY="169.0" mnemonicParsing="false" onAction="#onZoomOutNearestClick" text="Zoom Out NN" />
-                                        <Button layoutX="14.0" layoutY="208.0" mnemonicParsing="false" onAction="#onZoomOutBilinearClick" text="Zoom Out B" />
+                                        <Button layoutX="14.0" layoutY="208.0" mnemonicParsing="false" onAction="#onZoomOutSuperSampling" text="Zoom Out S" />
                                     </children>
                                     </AnchorPane>
                                  </content>
@@ -99,7 +99,7 @@
                                  <content>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #566985;">
                                        <children>
-                                          <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLightButtonClick" text="Brillo" />
+                                          <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBrigthnessButtonClick" text="Brillo" />
                                           <Slider fx:id="lightSlider" layoutX="14.0" layoutY="48.0" max="255.0" min="-255.0" />
                                        </children>
                                     </AnchorPane>
@@ -221,8 +221,39 @@
                                           </NumberAxis>
                                       </yAxis>
                                     </AreaChart>
-                                    <Button layoutX="118.0" layoutY="194.0" mnemonicParsing="false" onAction="#onPerfilButtonClick" text="Cargar" />
-                                    <TextField fx:id="perfilText" layoutX="26.0" layoutY="194.0" prefHeight="25.0" prefWidth="82.0" promptText="Linea a Leer" />
+                                    <HBox alignment="CENTER" layoutX="8.0" layoutY="176.0" prefHeight="27.0" prefWidth="200.0">
+                                       <children>
+                                          <RadioButton mnemonicParsing="false" onAction="#onRadioPerfilClick" selected="true" text="R">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="imagePerfil" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton mnemonicParsing="false" onAction="#onRadioPerfilClick" text="G" toggleGroup="$imagePerfil">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </RadioButton>
+                                          <RadioButton mnemonicParsing="false" onAction="#onRadioPerfilClick" text="B" toggleGroup="$imagePerfil">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </RadioButton>
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="perfilText" layoutX="26.0" layoutY="213.0" prefHeight="25.0" prefWidth="82.0" promptText="Linea a Leer" />
+                                    <Button layoutX="118.0" layoutY="213.0" mnemonicParsing="false" onAction="#onPerfilButtonClick" text="Cargar" />
                                  </children>
                               </AnchorPane>
                            </content>
@@ -254,31 +285,31 @@
                                                       <HBox alignment="CENTER" prefHeight="25.0" prefWidth="222.0">
                                                          <children>
                                                             <RadioButton mnemonicParsing="false" onAction="#onRadioHistogramClick" selected="true" text="R">
-                                                               <font>
-                                                                  <Font size="10.0" />
-                                                               </font>
                                                                <HBox.margin>
-                                                                  <Insets left="5.0" right="5.0" />
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                </HBox.margin>
                                                                <toggleGroup>
                                                                   <ToggleGroup fx:id="histogram" />
                                                                </toggleGroup>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
                                                             </RadioButton>
                                                             <RadioButton mnemonicParsing="false" onAction="#onRadioHistogramClick" text="G" toggleGroup="$histogram">
-                                                               <font>
-                                                                  <Font size="10.0" />
-                                                               </font>
                                                                <HBox.margin>
-                                                                  <Insets left="5.0" right="5.0" />
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                </HBox.margin>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
                                                             </RadioButton>
                                                             <RadioButton mnemonicParsing="false" onAction="#onRadioHistogramClick" text="B" toggleGroup="$histogram">
-                                                               <font>
-                                                                  <Font size="10.0" />
-                                                               </font>
                                                                <HBox.margin>
-                                                                  <Insets left="5.0" right="5.0" />
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                </HBox.margin>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
                                                             </RadioButton>
                                                          </children>
                                                       </HBox>
@@ -306,32 +337,32 @@
                                                       </LineChart>
                                                       <HBox alignment="CENTER" prefHeight="25.0" prefWidth="222.0">
                                                          <children>
-                                                            <RadioButton mnemonicParsing="false" selected="true" text="R">
-                                                               <font>
-                                                                  <Font size="10.0" />
-                                                               </font>
+                                                            <RadioButton mnemonicParsing="false" onAction="#onRadioCurveClick" selected="true" text="R">
                                                                <HBox.margin>
-                                                                  <Insets left="5.0" right="5.0" />
+                                                                  <Insets bottom="50.0" left="5.0" right="5.0" top="5.0" />
                                                                </HBox.margin>
                                                                <toggleGroup>
                                                                   <ToggleGroup fx:id="tonalCurve" />
                                                                </toggleGroup>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
                                                             </RadioButton>
-                                                            <RadioButton mnemonicParsing="false" text="G" toggleGroup="$tonalCurve">
-                                                               <font>
-                                                                  <Font size="10.0" />
-                                                               </font>
+                                                            <RadioButton mnemonicParsing="false" onAction="#onRadioCurveClick" text="G" toggleGroup="$tonalCurve">
                                                                <HBox.margin>
-                                                                  <Insets left="5.0" right="5.0" />
+                                                                  <Insets bottom="50.0" left="5.0" right="5.0" top="5.0" />
                                                                </HBox.margin>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
                                                             </RadioButton>
-                                                            <RadioButton mnemonicParsing="false" text="B" toggleGroup="$tonalCurve">
-                                                               <font>
-                                                                  <Font size="10.0" />
-                                                               </font>
+                                                            <RadioButton mnemonicParsing="false" onAction="#onRadioCurveClick" text="B" toggleGroup="$tonalCurve">
                                                                <HBox.margin>
-                                                                  <Insets left="5.0" right="5.0" />
+                                                                  <Insets bottom="50.0" left="5.0" right="5.0" top="5.0" />
                                                                </HBox.margin>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
                                                             </RadioButton>
                                                          </children>
                                                       </HBox>
