@@ -3,7 +3,6 @@ package actions
 import javafx.scene.control.ColorPicker
 import models.ImageMatrix
 
-
 class TonoController {
     //Negativo
     fun negativeImage(imageMatrix: ImageMatrix): ImageMatrix {

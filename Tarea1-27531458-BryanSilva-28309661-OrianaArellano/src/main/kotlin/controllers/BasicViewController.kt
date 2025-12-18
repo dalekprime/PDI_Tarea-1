@@ -10,7 +10,6 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.chart.AreaChart
 import javafx.scene.chart.LineChart
-import javafx.scene.chart.XYChart
 import javafx.scene.control.Accordion
 import javafx.scene.control.ColorPicker
 import javafx.scene.control.Label
@@ -22,7 +21,6 @@ import javafx.scene.control.ToggleGroup
 import javafx.scene.image.ImageView
 import javafx.stage.Stage
 import models.ImageMatrix
-import models.Pixel
 import models.Kernel
 
 class BasicViewController {
