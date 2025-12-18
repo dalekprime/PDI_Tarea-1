@@ -131,9 +131,6 @@ class BasicViewController {
     @FXML
     fun initialize() {
         rightAccordion.expandedPane = dataPanel
-        //mainImageView.isPreserveRatio = false
-        //mainImageView.fitWidth = javafx.scene.layout.Region.USE_COMPUTED_SIZE
-        //mainImageView.fitHeight = javafx.scene.layout.Region.USE_COMPUTED_SIZE
     }
 
     //Umbral Simple

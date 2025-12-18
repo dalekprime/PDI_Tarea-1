@@ -60,4 +60,7 @@ class ImageStateController {
         //Crear la información Inicial
         dataController.update(imageMatrix)
     }
+    fun downloadImage(imageMatrix: ImageMatrix){
+
+    }
 }
