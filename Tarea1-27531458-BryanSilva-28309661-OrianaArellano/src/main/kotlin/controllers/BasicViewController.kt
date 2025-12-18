@@ -21,6 +21,7 @@ import models.Pixel
 import models.Kernel
 import javax.swing.Spring.height
 import javax.swing.Spring.width
+import kotlin.math.roundToInt
 
 class BasicViewController {
 
@@ -500,4 +501,34 @@ class BasicViewController {
         matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
         imageController.changeView(matrixImage!!)
     }
+
+    @FXML
+    fun onPerfilado4Click(event: ActionEvent) {
+        val kernel = Kernel(3,3).perfilado8()
+        val convolutionController = ConvolutionController()
+        val laplacianImage = convolutionController.apply(matrixImage!!, kernel)
+
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        val newImage = ImageMatrix(width, height)
+        newImage.maxVal = matrixImage!!.maxVal
+        newImage.header = matrixImage!!.header
+
+        val alpha = 1.0
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                val orig = matrixImage!!.pixels[y][x]
+                val lap = laplacianImage.pixels[y][x]
+
+                val r = (orig.r + alpha * lap.r).roundToInt().coerceIn(0, 255)
+                val g = (orig.g + alpha * lap.g).roundToInt().coerceIn(0, 255)
+                val b = (orig.b + alpha * lap.b).roundToInt().coerceIn(0, 255)
+
+                newImage.pixels[y][x] = Pixel(r, g, b)
+            }
+        }
+        matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
+
 }
