@@ -27,6 +27,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ScrollPane?>
 <VBox fx:id="basicView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BasicViewController">
    <children>
       <MenuBar>
@@ -171,11 +172,15 @@
                      </content></Tab>
               </tabs>
             </TabPane>
-            <StackPane prefHeight="375.0" prefWidth="400.0" style="-fx-background-color: #666666;" HBox.hgrow="ALWAYS">
-               <children>
-                  <ImageView fx:id="mainImageView" fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" smooth="false" />
-               </children>
-            </StackPane>
+             <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefHeight="375.0" prefWidth="400.0" style="-fx-background-color: #666666;" HBox.hgrow="ALWAYS">
+                 <content>
+                     <StackPane style="-fx-background-color: #666666;">
+                         <children>
+                             <ImageView fx:id="mainImageView" pickOnBounds="true" preserveRatio="true" smooth="false" />
+                         </children>
+                     </StackPane>
+                 </content>
+             </ScrollPane>
             <VBox alignment="BOTTOM_LEFT" prefHeight="548.0" prefWidth="202.0" style="-fx-background-color: #3F4B5C;">
                <children>
                   <AnchorPane prefHeight="98.0" prefWidth="202.0">

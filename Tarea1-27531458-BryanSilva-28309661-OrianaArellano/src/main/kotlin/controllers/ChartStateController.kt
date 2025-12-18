@@ -47,6 +47,10 @@ class ChartStateController {
     fun updateCurve(originalImage: ImageMatrix?, actualImage: ImageMatrix?, channel: String) {
         originalImage ?: return
         actualImage ?: return
+        if (originalImage.width != actualImage.width || originalImage.height != actualImage.height) {
+            toneCurveChart.data.clear()
+            return
+        }
         val lookupTable = IntArray(256) { -1 }
         val width = originalImage.width
         val height = originalImage.height
