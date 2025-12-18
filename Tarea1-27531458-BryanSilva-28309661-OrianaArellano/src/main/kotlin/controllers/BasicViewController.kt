@@ -122,6 +122,23 @@ class BasicViewController {
         matrixImage = imageController.loadNewImage()
         originalImage = matrixImage!!.copy()
     }
+    //Descargar imagenes
+    @FXML
+    fun onDownLoadNetpbm(event: ActionEvent) {
+        imageController.downloadImageNetpbm(matrixImage!!)
+    }
+    @FXML
+    fun onDownLoadBMP(event: ActionEvent) {
+        imageController.downloadImagebmp(matrixImage!!)
+    }
+    @FXML
+    fun onDownLoadPNG(event: ActionEvent) {
+        imageController.downloadImagePNG(matrixImage!!)
+    }
+    @FXML
+    fun onDownLoadRLE(event: ActionEvent) {
+        imageController.downloadImageNetpbm(matrixImage!!)
+    }
 
     //Inicializar estado
     @FXML
