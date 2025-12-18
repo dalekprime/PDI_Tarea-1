@@ -17,6 +17,7 @@ import javafx.scene.control.ToggleGroup
 import javafx.scene.image.ImageView
 import javafx.stage.Stage
 import models.ImageMatrix
+import models.Pixel
 
 class BasicViewController {
 
@@ -82,6 +83,11 @@ class BasicViewController {
     @FXML
     fun initialize() {
         rightAccordion.expandedPane = dataPanel
+
+        // Configuración del ImageView para que se adapte al tamaño real de la imagen
+        //mainImageView.isPreserveRatio = false
+        //mainImageView.fitWidth = javafx.scene.layout.Region.USE_COMPUTED_SIZE
+        //mainImageView.fitHeight = javafx.scene.layout.Region.USE_COMPUTED_SIZE
     }
 
 
@@ -320,6 +326,144 @@ class BasicViewController {
         for (y in 0 until width) {
             for (x in 0 until height) {
                 newImage.pixels[y][x] = matrixImage!!.pixels[x][width-1-y]
+            }
+        }
+        matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    fun onZoomInNearestClick(event: ActionEvent) {
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        val factor = 2
+        val newImage = ImageMatrix(width * factor, height * factor)
+        newImage.maxVal = matrixImage!!.maxVal
+        newImage.header = matrixImage!!.header
+        for (y in 0 until newImage.height) {
+            val y1 = (y.toDouble() / factor + 0.5).toInt().coerceIn(0, height-1)
+            for (x in 0 until newImage.width) {
+                val x1 = (x.toDouble() / factor + 0.5).toInt().coerceIn(0, width-1)
+                newImage.pixels[y][x] = matrixImage!!.pixels[y1][x1]
+            }
+        }
+        matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    fun onZoomInBilinearClick(event: ActionEvent) {
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        val factor = 2
+        val newImage = ImageMatrix(width * factor, height * factor)
+        newImage.maxVal = matrixImage!!.maxVal
+        newImage.header = matrixImage!!.header
+
+        fun rangeX(x: Int) = x.coerceIn(0, width-1)
+        fun rangeY(y: Int) = y.coerceIn(0, height-1)
+
+        for (y in 0 until newImage.height) {
+            val v = y.toDouble() / factor
+            val j = v.toInt()
+            val b = v - j
+            for (x in 0 until newImage.width) {
+                val u = x.toDouble() / factor
+                val i = u.toInt()
+                val a = u - i
+
+                val p00 = matrixImage!!.pixels[rangeY(j)][rangeX(i)]
+                val p10 = matrixImage!!.pixels[rangeY(j)][rangeX(i+1)]
+                val p01 = matrixImage!!.pixels[rangeY(j+1)][rangeX(i)]
+                val p11 = matrixImage!!.pixels[rangeY(j+1)][rangeX(i+1)]
+
+                fun mix(c00: Int, c10: Int, c01: Int, c11: Int): Int {
+                    val r0 = (1-a)*c00 + a*c10
+                    val r1 = (1-a)*c01 + a*c11
+                    val c = (1-b)*r0 + b*r1
+                    return c.toInt().coerceIn(0,255)
+                }
+
+                newImage.pixels[y][x] = Pixel(
+                    mix(p00.r, p10.r, p01.r, p11.r),
+                    mix(p00.g, p10.g, p01.g, p11.g),
+                    mix(p00.b, p10.b, p01.b, p11.b)
+                )
+            }
+        }
+        matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    fun onZoomOutNearestClick(event: ActionEvent) {
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        val factor = 2
+
+        if (width / factor < 1 || height / factor < 1) {
+            println("Tamaño mínimo alcanzado.")
+            return
+        }
+        val newImage = ImageMatrix(width / factor, height / factor)
+        newImage.maxVal = matrixImage!!.maxVal
+        newImage.header = matrixImage!!.header
+
+        for (y in 0 until newImage.height) {
+            val y1 = y * factor
+            for (x in 0 until newImage.width) {
+                val x1 = x * factor
+                newImage.pixels[y][x] = matrixImage!!.pixels[y1][x1]
+            }
+        }
+        matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    fun onZoomOutBilinearClick(event: ActionEvent) {
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        val factor = 2
+
+        if (width / factor < 1 || height / factor < 1) {
+            println("Tamaño mínimo alcanzado.")
+            return
+        }
+
+        val newImage = ImageMatrix(width / factor, height / factor)
+        newImage.maxVal = matrixImage!!.maxVal
+        newImage.header = matrixImage!!.header
+
+        fun rangeX(x: Int) = x.coerceIn(0, width - 1)
+        fun rangeY(y: Int) = y.coerceIn(0, height - 1)
+
+        for (y in 0 until newImage.height) {
+            val v = y.toDouble() * factor
+            val j = v.toInt()
+            val b = v - j
+            for (x in 0 until newImage.width) {
+                val u = x.toDouble() * factor
+                val i = u.toInt()
+                val a = u - i
+
+                val p00 = matrixImage!!.pixels[rangeY(j)][rangeX(i)]
+                val p10 = matrixImage!!.pixels[rangeY(j)][rangeX(i+1)]
+                val p01 = matrixImage!!.pixels[rangeY(j+1)][rangeX(i)]
+                val p11 = matrixImage!!.pixels[rangeY(j+1)][rangeX(i+1)]
+
+                fun mix(c00: Int, c10: Int, c01: Int, c11: Int): Int {
+                    val r0 = (1-a)*c00 + a*c10
+                    val r1 = (1-a)*c01 + a*c11
+                    val c = (1-b)*r0 + b*r1
+                    return c.toInt().coerceIn(0,255)
+                }
+
+                newImage.pixels[y][x] = Pixel(
+                    mix(p00.r, p10.r, p01.r, p11.r),
+                    mix(p00.g, p10.g, p01.g, p11.g),
+                    mix(p00.b, p10.b, p01.b, p11.b)
+                )
             }
         }
         matrixImage = newImage

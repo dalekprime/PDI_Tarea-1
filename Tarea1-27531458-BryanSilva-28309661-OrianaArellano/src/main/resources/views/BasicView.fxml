@@ -74,14 +74,16 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #566985;">
                                        <children>
-                                          <Button layoutX="14.0" layoutY="129.0" mnemonicParsing="false" text="Zoom In" />
-                                          <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onRotation90Click" text="Rotacion 90" />
-                                          <Button layoutX="103.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMirrorHClick" text="Espejo H" />
-                                          <Button layoutX="103.0" layoutY="52.0" mnemonicParsing="false" onAction="#onMirrorVClick" text="Espejo V" />
-                                          <Button layoutX="14.0" layoutY="52.0" mnemonicParsing="false" onAction="#onRotation180Click" text="Rotacion 180" />
-                                          <Button layoutX="14.0" layoutY="91.0" mnemonicParsing="false" onAction="#onRotation270Click" text="Rotacion 270" />
-                                          <Button layoutX="14.0" layoutY="169.0" mnemonicParsing="false" text="Zoom Out" />
-                                       </children>
+                                        <Button layoutX="14.0" layoutY="129.0" mnemonicParsing="false" onAction = "#onZoomInNearestClick" text="Zoom In NN" />
+                                        <Button layoutX="103.0" layoutY="129.0" mnemonicParsing="false" onAction="#onZoomInBilinearClick" text="Zoom In B" />
+                                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onRotation90Click" text="Rotacion 90" />
+                                        <Button layoutX="103.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMirrorHClick" text="Espejo H" />
+                                        <Button layoutX="103.0" layoutY="52.0" mnemonicParsing="false" onAction="#onMirrorVClick" text="Espejo V" />
+                                        <Button layoutX="14.0" layoutY="52.0" mnemonicParsing="false" onAction="#onRotation180Click" text="Rotacion 180" />
+                                        <Button layoutX="14.0" layoutY="91.0" mnemonicParsing="false" onAction="#onRotation270Click" text="Rotacion 270" />
+                                        <Button layoutX="14.0" layoutY="169.0" mnemonicParsing="false" onAction= "#onZoomOutNearestClick" text="Zoom Out NN" />
+                                        <Button layoutX="14.0" layoutY="208.0" mnemonicParsing="false" onAction= "#onZoomOutBilinearClick" text="Zoom Out B" />
+                                    </children>
                                     </AnchorPane>
                                  </content>
                               </TitledPane>

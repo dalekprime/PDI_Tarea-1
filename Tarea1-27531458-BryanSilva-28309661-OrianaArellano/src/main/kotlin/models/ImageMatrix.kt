@@ -224,7 +224,6 @@ class ImageMatrix {
         reader.close()
         pixels = matrix
     }
-
     fun matrixToImage(): Image{
         val outputImage = WritableImage(width, height)
         val writer = outputImage.pixelWriter
