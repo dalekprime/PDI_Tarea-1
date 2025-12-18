@@ -87,4 +87,23 @@ class Kernel {
         )
         return k
     }
+
+    fun generateRoberts(orientation: String): Kernel {
+        val k = Kernel(2, 2)
+        if (orientation == "X") {
+            k.matrix = arrayOf(
+                arrayOf(1.0, 0.0),
+                arrayOf(0.0, -1.0)
+            )
+        } else {
+            k.matrix = arrayOf(
+                arrayOf(0.0, 1.0),
+                arrayOf(-1.0, 0.0)
+            )
+        }
+        return k
+    }
+
+
+
 }
