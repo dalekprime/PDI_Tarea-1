@@ -66,9 +66,9 @@
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #566985;">
                                        <children>
                                           <ColorPicker fx:id="colorScalePicker" layoutX="8.0" layoutY="49.0" />
-                                          <Button layoutX="8.0" layoutY="86.0" mnemonicParsing="false" onAction="#onColorScalePickerClick" text="Color Scale" />
-                                          <ToggleButton layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#onGreyscaleButtonClick" text="GrayScale" />
-                                          <ToggleButton layoutX="9.0" layoutY="123.0" mnemonicParsing="false" onAction="#onNegativeButtonClick" text="Negativo" />
+                                          <Button layoutX="8.0" layoutY="86.0" mnemonicParsing="false" onAction="#onColorScalePickerClick" prefWidth="80.0" text="Color Scale" />
+                                          <ToggleButton layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#onGreyscaleButtonClick" prefHeight="25.0" prefWidth="80.0" text="GrayScale" />
+                                          <ToggleButton layoutX="9.0" layoutY="123.0" mnemonicParsing="false" onAction="#onNegativeButtonClick" prefHeight="25.0" prefWidth="80.0" text="Negativo" />
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -77,15 +77,25 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #566985;">
                                        <children>
-                                        <Button layoutX="14.0" layoutY="129.0" mnemonicParsing="false" onAction="#onZoomInNearestClick" text="Zoom In NN" />
-                                        <Button layoutX="103.0" layoutY="129.0" mnemonicParsing="false" onAction="#onZoomInBilinearClick" text="Zoom In B" />
-                                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onRotation90Click" text="Rotacion 90" />
-                                        <Button layoutX="103.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMirrorHClick" text="Espejo H" />
-                                        <Button layoutX="103.0" layoutY="52.0" mnemonicParsing="false" onAction="#onMirrorVClick" text="Espejo V" />
-                                        <Button layoutX="14.0" layoutY="52.0" mnemonicParsing="false" onAction="#onRotation180Click" text="Rotacion 180" />
-                                        <Button layoutX="14.0" layoutY="91.0" mnemonicParsing="false" onAction="#onRotation270Click" text="Rotacion 270" />
-                                        <Button layoutX="14.0" layoutY="169.0" mnemonicParsing="false" onAction="#onZoomOutNearestClick" text="Zoom Out NN" />
-                                        <Button layoutX="14.0" layoutY="208.0" mnemonicParsing="false" onAction="#onZoomOutSuperSampling" text="Zoom Out S" />
+                                        <Button layoutX="14.0" layoutY="187.0" mnemonicParsing="false" onAction="#onZoomInNearestClick" prefHeight="25.0" prefWidth="90.0" text="ZoomIn NN" />
+                                        <Button layoutX="14.0" layoutY="224.0" mnemonicParsing="false" onAction="#onZoomInBilinearClick" prefHeight="25.0" prefWidth="90.0" text="Zoom In B" />
+                                        <Button layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#onRotation90Click" prefHeight="25.0" prefWidth="90.0" text="Rotacion 90" />
+                                        <Button layoutX="111.0" layoutY="41.0" mnemonicParsing="false" onAction="#onMirrorHClick" text="Espejo H" />
+                                        <Button layoutX="112.0" layoutY="79.0" mnemonicParsing="false" onAction="#onMirrorVClick" text="Espejo V" />
+                                        <Button layoutX="14.0" layoutY="79.0" mnemonicParsing="false" onAction="#onRotation180Click" prefHeight="25.0" prefWidth="90.0" text="Rotacion 180" />
+                                        <Button layoutX="14.0" layoutY="118.0" mnemonicParsing="false" onAction="#onRotation270Click" prefHeight="25.0" prefWidth="90.0" text="Rotacion 270" />
+                                        <Button layoutX="14.0" layoutY="259.0" mnemonicParsing="false" onAction="#onZoomOutNearestClick" prefHeight="25.0" prefWidth="90.0" text="ZoomOut NN" />
+                                        <Button layoutX="14.0" layoutY="292.0" mnemonicParsing="false" onAction="#onZoomOutSuperSampling" prefHeight="25.0" prefWidth="90.0" text="Zoom Out S" />
+                                          <Label layoutX="14.0" layoutY="160.0" text="Zoom" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="14.0" layoutY="14.0" text="Rotacion" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
                                     </children>
                                     </AnchorPane>
                                  </content>
@@ -96,59 +106,55 @@
                 </Tab>
                   <Tab text="Iluminacion">
                      <content>
-                        <Accordion>
-                           <panes>
-                              <TitledPane animated="false" text="Brillo">
-                                 <content>
-                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #566985;">
-                                       <children>
-                                          <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBrigthnessButtonClick" text="Brillo" />
-                                          <Slider fx:id="lightSlider" layoutX="14.0" layoutY="48.0" max="255.0" min="-255.0" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                              <TitledPane animated="false" text="Contraste">
-                                 <content>
-                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #566985;">
-                                       <children>
-                                          <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onConstrastButtonClick" text="Contraste" />
-                                          <Slider fx:id="contrastSlider" blockIncrement="0.1" layoutX="12.0" layoutY="50.0" majorTickUnit="0.5" max="2.0" showTickMarks="true" value="1.0" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                              <TitledPane animated="false" text="Umbral">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #566985;">
-                                       <children>
-                                          <Button layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#onUmbralButtonClick" text="Umbral Simple" />
-                                          <Slider fx:id="umbralSlider" layoutX="12.0" layoutY="46.0" max="255.0" showTickLabels="true" showTickMarks="true" />
-                                          <Button layoutX="12.0" layoutY="118.0" mnemonicParsing="false" onAction="#onMultiUmbralButtonClick" text="Umbral Multiple" />
-                                          <TextField fx:id="umbralMultInf" layoutX="13.0" layoutY="84.0" prefHeight="25.0" prefWidth="60.0" promptText="Valor Inf" />
-                                          <TextField fx:id="umbralMultiSup" layoutX="81.0" layoutY="84.0" prefHeight="25.0" prefWidth="64.0" promptText="Valor Sup" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                           </panes>
-                        </Accordion>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #566985;">
+                           <children>
+                              <Label layoutX="17.0" layoutY="16.0" text="Brillo" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="20.0" layoutY="62.0" mnemonicParsing="false" onAction="#onBrigthnessButtonClick" prefHeight="25.0" prefWidth="80.0" text="Aplicar" />
+                              <Slider fx:id="lightSlider" layoutX="14.0" layoutY="40.0" max="255.0" min="-255.0" />
+                              <Button layoutX="20.0" layoutY="156.0" mnemonicParsing="false" onAction="#onConstrastButtonClick" prefHeight="25.0" prefWidth="80.0" text="Aplicar" />
+                              <Slider fx:id="contrastSlider" blockIncrement="0.1" layoutX="14.0" layoutY="126.0" majorTickUnit="0.5" max="2.0" showTickMarks="true" value="1.0" />
+                              <Button layoutX="17.0" layoutY="268.0" mnemonicParsing="false" onAction="#onUmbralButtonClick" prefHeight="25.0" prefWidth="102.0" text="Umbral Simple" />
+                              <Slider fx:id="umbralSlider" layoutX="14.0" layoutY="228.0" max="255.0" showTickLabels="true" showTickMarks="true" />
+                              <Button layoutX="15.0" layoutY="372.0" mnemonicParsing="false" onAction="#onMultiUmbralButtonClick" prefHeight="25.0" prefWidth="110.0" text="Umbral Multiple" />
+                              <TextField fx:id="umbralMultInf" layoutX="16.0" layoutY="338.0" prefHeight="25.0" prefWidth="60.0" promptText="Valor Inf" />
+                              <TextField fx:id="umbralMultiSup" layoutX="85.0" layoutY="338.0" prefHeight="25.0" prefWidth="64.0" promptText="Valor Sup" />
+                              <Label layoutX="17.0" layoutY="99.0" text="Contraste" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="21.0" layoutY="200.0" text="Umbral Simple" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="19.0" layoutY="310.0" text="Umbral Mutiple" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
                      </content>
                   </Tab>
                 <Tab text="Filtros">
                      <content>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Button layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#onMeanButtonClick" text="Filtro de Promedio" />
-                              <Button layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#onGaussButtonClick" text="Filtro de Gauss" />
-                              <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#onMedianButtonClick" text="Filtro de Mediana" />
+                              <Button layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#onMeanButtonClick" prefHeight="25.0" prefWidth="80.0" text="Promedio" />
+                              <Button layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#onGaussButtonClick" prefHeight="25.0" prefWidth="80.0" text="Gauss" />
+                              <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#onMedianButtonClick" prefHeight="25.0" prefWidth="80.0" text="Mediana" />
                               <Button layoutX="19.0" layoutY="206.0" mnemonicParsing="false" text="Sobel" />
                               <Button layoutX="21.0" layoutY="177.0" mnemonicParsing="false" text="Prewitt" />
                               <Button layoutX="66.0" layoutY="218.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="57.0" text="Roberts" />
-                              <Button layoutX="18.0" layoutY="304.0" mnemonicParsing="false" text="Gradiente" />
-                              <Button layoutX="20.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPerfilado4Click" text="Perfil 4" />
-                              <Button layoutX="80.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPerfilado8Click" text="Perfil 8" />
-                              <Button layoutX="14.0" layoutY="405.0" mnemonicParsing="false" onAction="#onCustomKernelButtonClick" text="Kernel Personalizado" />
+                              <Button layoutX="18.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Gradiente" />
+                              <Button layoutX="17.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPerfilado4Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 4" />
+                              <Button layoutX="17.0" layoutY="376.0" mnemonicParsing="false" onAction="#onPerfilado8Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 8" />
+                              <Button layoutX="14.0" layoutY="442.0" mnemonicParsing="false" onAction="#onCustomKernelButtonClick" text="Kernel Personalizado" />
                               <Label layoutX="13.0" layoutY="148.0" text="Operadores de Borde" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
@@ -164,11 +170,20 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="17.0" layoutY="379.0" text="Otros" textFill="WHITE">
+                              <Label layoutX="17.0" layoutY="416.0" text="Otros" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
+                              <TextField layoutX="100.0" layoutY="28.0" prefHeight="25.0" prefWidth="23.0" />
+                              <Label layoutX="124.0" layoutY="31.0" text="X" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField layoutX="135.0" layoutY="29.0" prefHeight="25.0" prefWidth="23.0" />
+                              <TextField layoutX="100.0" layoutY="65.0" prefHeight="25.0" prefWidth="23.0" />
+                              <TextField layoutX="100.0" layoutY="100.0" prefHeight="25.0" prefWidth="23.0" />
                            </children>
                         </AnchorPane>
                      </content></Tab>
@@ -179,6 +194,7 @@
                      <StackPane style="-fx-background-color: #666666;">
                          <children>
                              <ImageView fx:id="mainImageView" pickOnBounds="true" preserveRatio="true" smooth="false" />
+                        <ImageView fx:id="mainImageView1" layoutX="202.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true" smooth="false" />
                          </children>
                      </StackPane>
                  </content>
