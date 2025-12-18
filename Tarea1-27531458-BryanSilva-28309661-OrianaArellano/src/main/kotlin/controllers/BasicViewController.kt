@@ -472,6 +472,7 @@ class BasicViewController {
         }
         matrixImage = newImage
 
+        @FXML
         fun onPromButtonClick(event: ActionEvent) {
             val controllerConvolution = ConvolutionController()
             val kernel = Kernel(10, 10)
@@ -483,5 +484,20 @@ class BasicViewController {
             matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
             imageController.changeView(matrixImage!!)
         }
+    }
+
+    @FXML
+    fun onPromButtonClick(event: ActionEvent) {
+        val controllerConvolution = ConvolutionController()
+        val kernel = Kernel(5,5)
+
+        for (y in 0 until 5) {
+            for (x in 0 until 5) {
+                kernel.matrix[y][x] = 1/25.0
+            }
+        }
+
+        matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
+        imageController.changeView(matrixImage!!)
     }
 }
