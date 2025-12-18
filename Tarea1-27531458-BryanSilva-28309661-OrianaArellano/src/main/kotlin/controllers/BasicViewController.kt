@@ -273,9 +273,7 @@ class BasicViewController {
         imageController.changeView(matrixImage!!)
     }
 
-    @FXML
-    fun onPerfilado4Click(event: ActionEvent) {
-        val kernel = Kernel(3,3).perfilado8()
+    private fun aplicarPerfilado(kernel: Kernel) {
         val convolutionController = ConvolutionController()
         val laplacianImage = convolutionController.apply(matrixImage!!, kernel)
 
@@ -300,6 +298,16 @@ class BasicViewController {
         }
         matrixImage = newImage
         imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    fun onPerfilado8Click(event: ActionEvent) {
+        aplicarPerfilado(Kernel(3,3).perfilado8())
+    }
+
+    @FXML
+    fun onPerfilado4Click(event: ActionEvent) {
+        aplicarPerfilado(Kernel(3,3).perfilado4())
     }
 
 }

@@ -144,7 +144,8 @@
                               <Button layoutX="21.0" layoutY="177.0" mnemonicParsing="false" text="Prewitt" />
                               <Button layoutX="66.0" layoutY="218.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="57.0" text="Roberts" />
                               <Button layoutX="18.0" layoutY="304.0" mnemonicParsing="false" text="Gradiente" />
-                              <Button layoutX="20.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPerfilado4Click" text="Perfil" />
+                              <Button layoutX="20.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPerfilado4Click" text="Perfil 4" />
+                              <Button layoutX="80.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPerfilado8Click" text="Perfil 8" />
                               <Button layoutX="14.0" layoutY="405.0" mnemonicParsing="false" text="Kernel Personalizado" />
                               <Label layoutX="13.0" layoutY="148.0" text="Operadores de Borde" textFill="WHITE">
                                  <font>
