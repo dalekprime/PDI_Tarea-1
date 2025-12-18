@@ -17,6 +17,9 @@ import javafx.scene.control.ToggleGroup
 import javafx.scene.image.ImageView
 import javafx.stage.Stage
 import models.ImageMatrix
+import models.Kernel
+import javax.swing.Spring.height
+import javax.swing.Spring.width
 
 class BasicViewController {
 
@@ -323,6 +326,19 @@ class BasicViewController {
             }
         }
         matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    fun onPromButtonClick(event: ActionEvent) {
+        val controllerConvolution = ConvolutionController()
+        val kernel = Kernel(10,10)
+        for (y in 0 until 10) {
+            for (x in 0 until 10) {
+                kernel.matrix[y][x] = 1/100.00
+            }
+        }
+        matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
         imageController.changeView(matrixImage!!)
     }
 }
