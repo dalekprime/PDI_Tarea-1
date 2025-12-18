@@ -148,7 +148,7 @@
                               <Button layoutX="18.0" layoutY="304.0" mnemonicParsing="false" text="Gradiente" />
                               <Button layoutX="20.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPerfilado4Click" text="Perfil 4" />
                               <Button layoutX="80.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPerfilado8Click" text="Perfil 8" />
-                              <Button layoutX="14.0" layoutY="405.0" mnemonicParsing="false" text="Kernel Personalizado" />
+                              <Button layoutX="14.0" layoutY="405.0" mnemonicParsing="false" onAction="#onCustomKernelButtonClick" text="Kernel Personalizado" />
                               <Label layoutX="13.0" layoutY="148.0" text="Operadores de Borde" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="14.0" />

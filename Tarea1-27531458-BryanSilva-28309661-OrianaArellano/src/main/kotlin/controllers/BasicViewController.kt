@@ -19,10 +19,12 @@ import javafx.scene.control.TextField
 import javafx.scene.control.TitledPane
 import javafx.scene.control.ToggleGroup
 import javafx.scene.image.ImageView
+import javafx.stage.FileChooser
 import javafx.stage.Stage
 import models.ImageMatrix
 import models.Kernel
 import models.Pixel
+import java.io.File
 import javax.swing.Spring.height
 import javax.swing.Spring.width
 import kotlin.math.roundToInt
@@ -56,6 +58,7 @@ class BasicViewController {
     private lateinit var ligthController: LigthController
     private lateinit var rotationController: RotationController
     private lateinit var zoomController: ZoomController
+    private lateinit var controllerConvolution: ConvolutionController
 
     //Graficos
     @FXML
@@ -118,6 +121,7 @@ class BasicViewController {
         ligthController = LigthController()
         rotationController = RotationController()
         zoomController = ZoomController()
+        controllerConvolution = ConvolutionController()
         //Leer Imagen Inicial y crea una copia
         matrixImage = imageController.loadNewImage()
         originalImage = matrixImage!!.copy()
@@ -125,18 +129,22 @@ class BasicViewController {
     //Descargar imagenes
     @FXML
     fun onDownLoadNetpbm(event: ActionEvent) {
+        matrixImage?:return
         imageController.downloadImageNetpbm(matrixImage!!)
     }
     @FXML
     fun onDownLoadBMP(event: ActionEvent) {
+        matrixImage?:return
         imageController.downloadImagebmp(matrixImage!!)
     }
     @FXML
     fun onDownLoadPNG(event: ActionEvent) {
+        matrixImage?:return
         imageController.downloadImagePNG(matrixImage!!)
     }
     @FXML
     fun onDownLoadRLE(event: ActionEvent) {
+        matrixImage?:return
         imageController.downloadImageRLE(matrixImage!!)
     }
 
@@ -276,21 +284,36 @@ class BasicViewController {
 
     //Convoluciones
     @FXML
+    fun onCustomKernelButtonClick(event: ActionEvent) {
+        matrixImage?:return
+        val fileChooser = FileChooser().apply{
+            title = "Selecionar Imagen"
+            extensionFilters.add(FileChooser.ExtensionFilter(
+                "Kernel",
+                "*.txt"))
+            initialDirectory = File(System.getProperty("user.dir") + "/imagesTest")
+        }
+        val file: File? = fileChooser.showOpenDialog(stage)
+        file?:return
+        val kernel = Kernel(file)
+        matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
+        imageController.changeView(matrixImage!!)
+    }
+    @FXML
     fun onPromButtonClick(event: ActionEvent) {
-        val controllerConvolution = ConvolutionController()
+        matrixImage?:return
         val kernel = Kernel(5,5)
-
         for (y in 0 until 5) {
             for (x in 0 until 5) {
                 kernel.matrix[y][x] = 1/25.0
             }
         }
-
         matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
         imageController.changeView(matrixImage!!)
     }
 
     private fun aplicarPerfilado(kernel: Kernel) {
+        matrixImage?:return
         val convolutionController = ConvolutionController()
         val laplacianImage = convolutionController.apply(matrixImage!!, kernel)
 
@@ -319,11 +342,13 @@ class BasicViewController {
 
     @FXML
     fun onPerfilado8Click(event: ActionEvent) {
+        matrixImage?:return
         aplicarPerfilado(Kernel(3,3).perfilado8())
     }
 
     @FXML
     fun onPerfilado4Click(event: ActionEvent) {
+        matrixImage?:return
         aplicarPerfilado(Kernel(3,3).perfilado4())
     }
 

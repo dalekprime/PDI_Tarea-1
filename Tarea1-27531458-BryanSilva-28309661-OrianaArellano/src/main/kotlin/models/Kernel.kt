@@ -17,17 +17,19 @@ class Kernel {
     }
     constructor(file: File){
         var ele = Scanner(file)
-        this.height = ele.nextLine().toInt()
-        this.width = ele.nextLine().toInt()
+        this.height = ele.nextInt()
+        this.width = ele.nextInt()
         matrix = Array(height) { Array(width) { 0.0 } }
         for (y in 0 until height) {
             for (x in 0 until width) {
                 if (ele.hasNext()) {
-                    matrix[y][x] = ele.next().toDouble()
+                    val value = ele.nextDouble()
+                    matrix[y][x] = value
                 }
             }
         }
         ele.close()
+
     }
 
     fun perfilado4(): Kernel {

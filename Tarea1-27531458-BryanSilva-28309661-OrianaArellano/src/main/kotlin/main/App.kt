@@ -14,7 +14,7 @@ class App : Application() {
         val scene = Scene(sceneLoader.load(), 800.0, 600.0)
         val controller: BasicViewController = sceneLoader.getController()
         controller.setStage(stage)
-        stage.title = "Tarea1-27531458-BryanSilva"
+        stage.title = "Tarea1-27531458-BryanSilva-28309661-OrianaArellano"
         stage.scene = scene
         stage.icons.add(Image("visuals/icon.png"))
         stage.show()
