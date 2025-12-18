@@ -2,6 +2,7 @@ package controllers
 
 import actions.ConvolutionController
 import actions.LigthController
+import actions.NoLinearController
 import actions.RotationController
 import actions.UmbralizerController
 import actions.TonoController
@@ -59,6 +60,7 @@ class BasicViewController {
     private lateinit var rotationController: RotationController
     private lateinit var zoomController: ZoomController
     private lateinit var controllerConvolution: ConvolutionController
+    private  lateinit var noLinearController: NoLinearController
 
     //Graficos
     @FXML
@@ -122,6 +124,7 @@ class BasicViewController {
         rotationController = RotationController()
         zoomController = ZoomController()
         controllerConvolution = ConvolutionController()
+        noLinearController = NoLinearController()
         //Leer Imagen Inicial y crea una copia
         matrixImage = imageController.loadNewImage()
         originalImage = matrixImage!!.copy()
@@ -146,6 +149,12 @@ class BasicViewController {
     fun onDownLoadRLE(event: ActionEvent) {
         matrixImage?:return
         imageController.downloadImageRLE(matrixImage!!)
+    }
+    //Cargar Imagen original
+    @FXML
+    fun onOriginalButtton(event: ActionEvent) {
+        originalImage?:return
+        imageController.changeView(originalImage!!)
     }
 
     //Inicializar estado
@@ -300,15 +309,25 @@ class BasicViewController {
         imageController.changeView(matrixImage!!)
     }
     @FXML
-    fun onPromButtonClick(event: ActionEvent) {
+    fun onMeanButtonClick(event: ActionEvent) {
         matrixImage?:return
         val kernel = Kernel(5,5)
-        for (y in 0 until 5) {
-            for (x in 0 until 5) {
-                kernel.matrix[y][x] = 1/25.0
-            }
-        }
+        kernel.generateMean(5,5)
         matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
+        imageController.changeView(matrixImage!!)
+    }
+    @FXML
+    fun onGaussButtonClick(event: ActionEvent) {
+        matrixImage?:return
+        val kernel = Kernel(5,5)
+        kernel.generateGaussian(5)
+        matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
+        imageController.changeView(matrixImage!!)
+    }
+    @FXML
+    fun onMedianButtonClick(event: ActionEvent) {
+        matrixImage?:return
+        matrixImage = noLinearController.applyMedianFilter(matrixImage!!, 5)
         imageController.changeView(matrixImage!!)
     }
 
@@ -316,7 +335,6 @@ class BasicViewController {
         matrixImage?:return
         val convolutionController = ConvolutionController()
         val laplacianImage = convolutionController.apply(matrixImage!!, kernel)
-
         val width = matrixImage!!.width
         val height = matrixImage!!.height
         val newImage = ImageMatrix(width, height)
