@@ -18,6 +18,9 @@ import javafx.scene.image.ImageView
 import javafx.stage.Stage
 import models.ImageMatrix
 import models.Pixel
+import models.Kernel
+import javax.swing.Spring.height
+import javax.swing.Spring.width
 
 class BasicViewController {
 
@@ -333,6 +336,7 @@ class BasicViewController {
     }
 
     @FXML
+
     fun onZoomInNearestClick(event: ActionEvent) {
         val width = matrixImage!!.width
         val height = matrixImage!!.height
@@ -448,15 +452,15 @@ class BasicViewController {
                 val a = u - i
 
                 val p00 = matrixImage!!.pixels[rangeY(j)][rangeX(i)]
-                val p10 = matrixImage!!.pixels[rangeY(j)][rangeX(i+1)]
-                val p01 = matrixImage!!.pixels[rangeY(j+1)][rangeX(i)]
-                val p11 = matrixImage!!.pixels[rangeY(j+1)][rangeX(i+1)]
+                val p10 = matrixImage!!.pixels[rangeY(j)][rangeX(i + 1)]
+                val p01 = matrixImage!!.pixels[rangeY(j + 1)][rangeX(i)]
+                val p11 = matrixImage!!.pixels[rangeY(j + 1)][rangeX(i + 1)]
 
                 fun mix(c00: Int, c10: Int, c01: Int, c11: Int): Int {
-                    val r0 = (1-a)*c00 + a*c10
-                    val r1 = (1-a)*c01 + a*c11
-                    val c = (1-b)*r0 + b*r1
-                    return c.toInt().coerceIn(0,255)
+                    val r0 = (1 - a) * c00 + a * c10
+                    val r1 = (1 - a) * c01 + a * c11
+                    val c = (1 - b) * r0 + b * r1
+                    return c.toInt().coerceIn(0, 255)
                 }
 
                 newImage.pixels[y][x] = Pixel(
@@ -467,6 +471,17 @@ class BasicViewController {
             }
         }
         matrixImage = newImage
-        imageController.changeView(matrixImage!!)
+
+        fun onPromButtonClick(event: ActionEvent) {
+            val controllerConvolution = ConvolutionController()
+            val kernel = Kernel(10, 10)
+            for (y in 0 until 10) {
+                for (x in 0 until 10) {
+                    kernel.matrix[y][x] = 1 / 100.00
+                }
+            }
+            matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
+            imageController.changeView(matrixImage!!)
+        }
     }
 }

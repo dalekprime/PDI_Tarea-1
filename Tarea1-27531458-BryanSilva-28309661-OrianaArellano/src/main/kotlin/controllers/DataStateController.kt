@@ -1,12 +1,10 @@
 package controllers
 
 import javafx.scene.control.Label
-import javafx.stage.Stage
 import models.ImageMatrix
 import models.Pixel
 import kotlin.math.ceil
 import kotlin.math.log
-import kotlin.math.roundToInt
 
 class DataStateController {
 
