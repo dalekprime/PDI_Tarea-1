@@ -107,6 +107,32 @@ class BasicViewController {
         }
         imageController.changeView(matrixImage!!)
     }
+    //Umbral Multiple
+    @FXML
+    private lateinit var umbralMultInf: TextField
+    @FXML
+    private lateinit var umbralMultiSup: TextField
+    fun onMultiUmbralButtonClick(event: ActionEvent){
+        val threshold1 = umbralMultInf.text.toInt()
+        val threshold2 = umbralMultiSup.text.toInt()
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                val grey = (0.299*matrixImage!!.pixels[y][x].r + 0.587*matrixImage!!.pixels[y][x].g + 0.114*matrixImage!!.pixels[y][x].b)
+                if(threshold1 > grey && grey < threshold2){
+                    matrixImage!!.pixels[y][x].r = 0
+                    matrixImage!!.pixels[y][x].g = 0
+                    matrixImage!!.pixels[y][x].b = 0
+                }else{
+                    matrixImage!!.pixels[y][x].r = 255
+                    matrixImage!!.pixels[y][x].g = 255
+                    matrixImage!!.pixels[y][x].b = 255
+                }
+            }
+        }
+        imageController.changeView(matrixImage!!)
+    }
 
     @FXML
     fun onNegativeButtonClick(event: ActionEvent) {
@@ -220,5 +246,83 @@ class BasicViewController {
         perfilAreaChart.data.add(series)
     }
 
+    @FXML
+    fun onMirrorHClick(event: ActionEvent) {
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        val newImage = ImageMatrix(width, height)
+        newImage.maxVal = matrixImage!!.maxVal
+        newImage.header = matrixImage!!.header
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                newImage.pixels[y][x] = matrixImage!!.pixels[y][width-1-x]
+            }
+        }
+        matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
 
+    @FXML
+    fun onMirrorVClick(event: ActionEvent) {
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        val newImage = ImageMatrix(width, height)
+        newImage.maxVal = matrixImage!!.maxVal
+        newImage.header = matrixImage!!.header
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                newImage.pixels[y][x] = matrixImage!!.pixels[height-1-y][x]
+            }
+        }
+        matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    fun onRotation90Click(event: ActionEvent) {
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        val newImage = ImageMatrix(height, width)
+        newImage.maxVal = matrixImage!!.maxVal
+        newImage.header = matrixImage!!.header
+        for (y in 0 until width) {
+            for (x in 0 until height) {
+                newImage.pixels[y][x] = matrixImage!!.pixels[height-1-x][y]
+            }
+        }
+        matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    fun onRotation180Click(event: ActionEvent) {
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        val newImage = ImageMatrix(width, height)
+        newImage.maxVal = matrixImage!!.maxVal
+        newImage.header = matrixImage!!.header
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                newImage.pixels[y][x] = matrixImage!!.pixels[height-1-y][width-1-x]
+            }
+        }
+        matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    fun onRotation270Click(event: ActionEvent) {
+        val width = matrixImage!!.width
+        val height = matrixImage!!.height
+        val newImage = ImageMatrix(height, width)
+        newImage.maxVal = matrixImage!!.maxVal
+        newImage.header = matrixImage!!.header
+        for (y in 0 until width) {
+            for (x in 0 until height) {
+                newImage.pixels[y][x] = matrixImage!!.pixels[x][width-1-y]
+            }
+        }
+        matrixImage = newImage
+        imageController.changeView(matrixImage!!)
+    }
 }
