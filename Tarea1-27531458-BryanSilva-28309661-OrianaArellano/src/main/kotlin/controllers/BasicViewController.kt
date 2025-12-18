@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView
 import javafx.stage.Stage
 import models.ImageMatrix
 import models.Kernel
+import models.Pixel
 import javax.swing.Spring.height
 import javax.swing.Spring.width
 import kotlin.math.roundToInt
