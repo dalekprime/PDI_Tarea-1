@@ -310,4 +310,23 @@ class BasicViewController {
         aplicarPerfilado(Kernel(3,3).perfilado4())
     }
 
+    @FXML
+    lateinit var radioXRoberts: RadioButton
+    @FXML
+    lateinit var radioYRoberts: RadioButton
+    @FXML
+    lateinit var orientationGroupRoberts: ToggleGroup
+
+    @FXML
+    fun onApplyRobertsClick(event: ActionEvent) {
+        val orientation = if (radioXRoberts.isSelected) "X" else "Y"
+
+        val kernel = Kernel(2,2).generateRoberts(orientation)
+        val result = ConvolutionController().apply(matrixImage!!, kernel)
+        matrixImage = result
+        imageController.changeView(matrixImage!!)
+    }
+
+
+
 }
