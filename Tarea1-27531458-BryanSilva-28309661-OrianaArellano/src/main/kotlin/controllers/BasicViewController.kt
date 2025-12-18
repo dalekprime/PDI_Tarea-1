@@ -26,8 +26,6 @@ import models.ImageMatrix
 import models.Kernel
 import models.Pixel
 import java.io.File
-import javax.swing.Spring.height
-import javax.swing.Spring.width
 import kotlin.math.roundToInt
 
 class BasicViewController {
@@ -309,25 +307,61 @@ class BasicViewController {
         imageController.changeView(matrixImage!!)
     }
     @FXML
+    private lateinit var meanFilterH: TextField
+    @FXML
+    private lateinit var meanFilterW: TextField
+    @FXML
     fun onMeanButtonClick(event: ActionEvent) {
         matrixImage?:return
-        val kernel = Kernel(5,5)
-        kernel.generateMean(5,5)
+        if (meanFilterH.text == "" || meanFilterW.text == ""){
+            applicationConsole.text = "Debe introducir un valor..."
+            return
+        }
+        val height = meanFilterH.text.toInt()
+        val width = meanFilterW.text.toInt()
+        if (height == 0 ||width == 0){
+            applicationConsole.text = "Fuera de Rango..."
+            return
+        }
+        val kernel = Kernel(height, width)
+        kernel.generateMean(height, width)
         matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
         imageController.changeView(matrixImage!!)
     }
+    @FXML
+    private lateinit var gaussFilterSize: TextField
     @FXML
     fun onGaussButtonClick(event: ActionEvent) {
         matrixImage?:return
-        val kernel = Kernel(5,5)
-        kernel.generateGaussian(5)
+        if (gaussFilterSize.text == ""){
+            applicationConsole.text = "Debe introducir un valor..."
+            return
+        }
+        val size = gaussFilterSize.text.toInt()
+        if (size == 0 ||size < 7){
+            applicationConsole.text = "Fuera de Rango..."
+            return
+        }
+        val kernel = Kernel(size,size)
+        kernel.generateGaussian(size)
         matrixImage = controllerConvolution.apply(matrixImage!!, kernel)
         imageController.changeView(matrixImage!!)
     }
     @FXML
+    private lateinit var medianFilterSize: TextField
+    @FXML
     fun onMedianButtonClick(event: ActionEvent) {
         matrixImage?:return
-        matrixImage = noLinearController.applyMedianFilter(matrixImage!!, 5)
+        if (medianFilterSize.text == ""){
+            applicationConsole.text = "Debe introducir un valor..."
+            return
+        }
+        val size = medianFilterSize.text.toInt()
+        if (size == 0 || size < 7){
+            applicationConsole.text = "Fuera de Rango"
+            return
+        }
+        matrixImage = noLinearController.applyMedianFilter(matrixImage!!, size)
         imageController.changeView(matrixImage!!)
     }
 

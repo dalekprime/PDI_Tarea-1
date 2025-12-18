@@ -14,6 +14,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -27,8 +28,7 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Spinner?>
+
 <VBox fx:id="basicView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BasicViewController">
    <children>
       <MenuBar>
@@ -56,7 +56,7 @@
       </MenuBar>
       <HBox prefHeight="600.0" prefWidth="800.0">
          <children>
-            <TabPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #566985;" tabClosingPolicy="UNAVAILABLE">
+            <TabPane prefHeight="548.0" prefWidth="232.0" style="-fx-background-color: #566985;" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Basicos">
                      <content>
@@ -146,18 +146,13 @@
                      <content>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-<<<<<<< HEAD
-                              <Button layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#onMeanButtonClick" prefHeight="25.0" prefWidth="80.0" text="Promedio" />
-                              <Button layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#onGaussButtonClick" prefHeight="25.0" prefWidth="80.0" text="Gauss" />
-                              <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#onMedianButtonClick" prefHeight="25.0" prefWidth="80.0" text="Mediana" />
-=======
-                              <Button layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#onPromButtonClick" text="Filtro de Promedio" />
-                              <Button layoutX="14.0" layoutY="100.0" mnemonicParsing="false" text="Filtro de Gaus" />
-                              <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" text="Filtro de Mediana" />
+                               <Button layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#onMeanButtonClick" prefHeight="25.0" prefWidth="80.0" text="Promedio" />
+                               <Button layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#onGaussButtonClick" prefHeight="25.0" prefWidth="80.0" text="Gauss" />
+                               <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#onMedianButtonClick" prefHeight="25.0" prefWidth="80.0" text="Mediana" />
                                <Button layoutX="14.0" layoutY="176.0" text="Sobel" />
-                               <HBox prefHeight="10.0" prefWidth="222.0" layoutX="70.0" layoutY="168.0">
+                               <HBox layoutX="70.0" layoutY="168.0" prefHeight="10.0" prefWidth="222.0">
                                    <children>
-                                       <RadioButton fx:id="radioXSobel" mnemonicParsing="false" text="X" selected="true">
+                                       <RadioButton fx:id="radioXSobel" mnemonicParsing="false" selected="true" text="X">
                                            <HBox.margin>
                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                            </HBox.margin>
@@ -178,12 +173,12 @@
                                        </RadioButton>
                                    </children>
                                </HBox>
-                               <Spinner fx:id="rowsSpinnerSobel" layoutX="14.0" layoutY="206.0" prefWidth="60.0"/>
-                               <Spinner fx:id="colsSpinnerSobel" layoutX="80.0" layoutY="206.0" prefWidth="60.0"/>
+                               <Spinner fx:id="rowsSpinnerSobel" editable="true" layoutX="14.0" layoutY="206.0" prefWidth="60.0" />
+                               <Spinner fx:id="colsSpinnerSobel" editable="true" layoutX="80.0" layoutY="206.0" prefWidth="60.0" />
                                <Button layoutX="14.0" layoutY="246.0" text="Prewitt" />
-                               <HBox prefHeight="10.0" prefWidth="222.0" layoutX="70.0" layoutY="238.0">
+                               <HBox layoutX="70.0" layoutY="238.0" prefHeight="10.0" prefWidth="222.0">
                                    <children>
-                                       <RadioButton fx:id="radioXPrewitt" mnemonicParsing="false" text="X" selected="true">
+                                       <RadioButton fx:id="radioXPrewitt" mnemonicParsing="false" selected="true" text="X">
                                            <HBox.margin>
                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                            </HBox.margin>
@@ -204,12 +199,12 @@
                                        </RadioButton>
                                    </children>
                                </HBox>
-                               <Spinner fx:id="rowsSpinnerPrewitt" layoutX="14.0" layoutY="276.0" prefWidth="60.0"/>
-                               <Spinner fx:id="colsSpinnerPrewitt" layoutX="80.0" layoutY="276.0" prefWidth="60.0"/>
-                               <Button layoutX="14.0" layoutY="316.0" onAction = "#onApplyRobertsClick" text="Roberts" />
-                               <HBox prefHeight="10.0" prefWidth="222.0" layoutX="70.0" layoutY="308.0">
+                               <Spinner fx:id="rowsSpinnerPrewitt" layoutX="14.0" layoutY="276.0" prefWidth="60.0" />
+                               <Spinner fx:id="colsSpinnerPrewitt" layoutX="80.0" layoutY="276.0" prefWidth="60.0" />
+                               <Button layoutX="14.0" layoutY="316.0" onAction="#onApplyRobertsClick" text="Roberts" />
+                               <HBox layoutX="70.0" layoutY="308.0" prefHeight="10.0" prefWidth="222.0">
                                    <children>
-                                       <RadioButton fx:id="radioXRoberts" mnemonicParsing="false" text="X" selected="true">
+                                       <RadioButton fx:id="radioXRoberts" mnemonicParsing="false" selected="true" text="X">
                                            <HBox.margin>
                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                            </HBox.margin>
@@ -230,20 +225,10 @@
                                        </RadioButton>
                                    </children>
                                </HBox>
-                               <Button layoutX="20.0" layoutY="378.0" text="Perfil 4" onAction="#onPerfilado4Click"/>
-                               <Button layoutX="80.0" layoutY="378.0" text="Perfil 8" onAction="#onPerfilado8Click"/>
-                               <Button layoutX="14.0" layoutY="450.0" text="Kernel Personalizado"/>
-                              <Button layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#onMeanButtonClick" text="Filtro de Promedio" />
-                              <Button layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#onGaussButtonClick" text="Filtro de Gauss" />
-                              <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#onMedianButtonClick" text="Filtro de Mediana" />
->>>>>>> af5452a8de7fc7a50ff6581a92b3bb03a8d8515e
-                              <Button layoutX="19.0" layoutY="206.0" mnemonicParsing="false" text="Sobel" />
-                              <Button layoutX="21.0" layoutY="177.0" mnemonicParsing="false" text="Prewitt" />
-                              <Button layoutX="66.0" layoutY="218.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="57.0" text="Roberts" />
-                              <Button layoutX="18.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Gradiente" />
-                              <Button layoutX="17.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPerfilado4Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 4" />
-                              <Button layoutX="17.0" layoutY="376.0" mnemonicParsing="false" onAction="#onPerfilado8Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 8" />
-                              <Button layoutX="14.0" layoutY="442.0" mnemonicParsing="false" onAction="#onCustomKernelButtonClick" text="Kernel Personalizado" />
+                              <Button layoutX="11.0" layoutY="415.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Gradiente" />
+                              <Button layoutX="12.0" layoutY="379.0" mnemonicParsing="false" onAction="#onPerfilado4Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 4" />
+                              <Button layoutX="98.0" layoutY="379.0" mnemonicParsing="false" onAction="#onPerfilado8Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 8" />
+                              <Button layoutX="11.0" layoutY="475.0" mnemonicParsing="false" onAction="#onCustomKernelButtonClick" text="Kernel Personalizado" />
                               <Label layoutX="13.0" layoutY="148.0" text="Operadores de Borde" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
@@ -254,29 +239,25 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="13.0" layoutY="348.0" text="Operadores" textFill="WHITE">
+                              <Label layoutX="13.0" layoutY="351.0" text="Operadores" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-<<<<<<< HEAD
-                              <Label layoutX="17.0" layoutY="416.0" text="Otros" textFill="WHITE">
-=======
-                              <Label layoutX="17.0" layoutY="420.0" text="Otros" textFill="WHITE">
->>>>>>> af5452a8de7fc7a50ff6581a92b3bb03a8d8515e
+                              <Label layoutX="13.0" layoutY="450.0" prefWidth="50.0" text="Otros" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="100.0" layoutY="28.0" prefHeight="25.0" prefWidth="23.0" />
+                              <TextField fx:id="meanFilterH" alignment="CENTER" layoutX="100.0" layoutY="28.0" prefHeight="25.0" prefWidth="23.0" promptText="H" />
                               <Label layoutX="124.0" layoutY="31.0" text="X" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="135.0" layoutY="29.0" prefHeight="25.0" prefWidth="23.0" />
-                              <TextField layoutX="100.0" layoutY="65.0" prefHeight="25.0" prefWidth="23.0" />
-                              <TextField layoutX="100.0" layoutY="100.0" prefHeight="25.0" prefWidth="23.0" />
+                              <TextField fx:id="meanFilterW" alignment="CENTER" layoutX="135.0" layoutY="29.0" prefHeight="25.0" prefWidth="23.0" promptText="W" />
+                              <TextField fx:id="gaussFilterSize" alignment="CENTER" layoutX="100.0" layoutY="100.0" prefHeight="25.0" prefWidth="40.0" promptText="Size" />
+                              <TextField fx:id="medianFilterSize" alignment="CENTER" layoutX="100.0" layoutY="66.0" prefHeight="25.0" prefWidth="40.0" promptText="Size" />
                            </children>
                         </AnchorPane>
                      </content></Tab>
