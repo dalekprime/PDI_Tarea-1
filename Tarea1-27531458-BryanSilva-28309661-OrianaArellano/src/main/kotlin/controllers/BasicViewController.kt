@@ -137,7 +137,7 @@ class BasicViewController {
     }
     @FXML
     fun onDownLoadRLE(event: ActionEvent) {
-        imageController.downloadImageNetpbm(matrixImage!!)
+        imageController.downloadImageRLE(matrixImage!!)
     }
 
     //Inicializar estado

@@ -112,7 +112,22 @@ class ImageStateController {
             dataLabel.text = "Error al guardar: ${e.message}"
         }
     }
-    // Guardar como P1
+    fun downloadImageRLE(imageMatrix: ImageMatrix) {
+        val fileChooser = FileChooser().apply {
+            title = "Guardar comprimido RLE"
+            initialFileName = "imagen_comprimida.rle"
+            extensionFilters.add(FileChooser.ExtensionFilter("Run Length Encoding", "*.rle"))
+        }
+        val file = fileChooser.showSaveDialog(stage) ?: return
+        try {
+            saveAsRLE(imageMatrix, file)
+            dataLabel.text = "Guardado RLE exitoso: ${file.name}"
+        } catch (e: Exception) {
+            dataLabel.text = "Error al guardar RLE: ${e.message}"
+            e.printStackTrace()
+        }
+    }
+    //Guardar como P1
     private fun saveAsPBM(matrix: ImageMatrix, file: File) {
         val writer = BufferedWriter(FileWriter(file))
         writer.write("P1\n")
@@ -128,7 +143,7 @@ class ImageStateController {
         }
         writer.close()
     }
-    // Guardar como P2
+    //Guardar como P2
     private fun saveAsPGM(matrix: ImageMatrix, file: File) {
         val writer = BufferedWriter(FileWriter(file))
         // Header P2
@@ -146,7 +161,7 @@ class ImageStateController {
         }
         writer.close()
     }
-    // Guardar como P3
+    //Guardar como P3
     private fun saveAsPPM(matrix: ImageMatrix, file: File) {
         val writer = BufferedWriter(FileWriter(file))
         writer.write("P3\n")
@@ -162,7 +177,7 @@ class ImageStateController {
         }
         writer.close()
     }
-    // Guardar como PNG o BMP
+    //Guardar como PNG o BMP
     private fun saveAsStandardImage(matrix: ImageMatrix, file: File) {
         val width = matrix.width
         val height = matrix.height
@@ -176,5 +191,80 @@ class ImageStateController {
         }
         val ext = file.extension.ifEmpty { "bmp" }
         ImageIO.write(bufferedImage, ext, file)
+    }
+    //Guardar como RLE
+    private fun saveAsRLE(matrix: ImageMatrix, file: File) {
+        val writer = BufferedWriter(FileWriter(file))
+        val format = when (matrix.header) {
+            "P1" -> "P1"
+            "P2" -> "P2"
+            else -> "P3"
+        }
+        writer.write("$format\n")
+        writer.write("# RLE Compressed by ImageEditor\n")
+        val maxValOut = if (format == "P1") 1 else 255
+        writer.write("${matrix.width} ${matrix.height}\n")
+        writer.write("$maxValOut\n")
+        var count = 0
+        var lastR = -1
+        var lastG = -1
+        var lastB = -1
+        for (y in 0 until matrix.height) {
+            for (x in 0 until matrix.width) {
+                val p = matrix.pixels[y][x]
+                val currentR: Int
+                val currentG: Int
+                val currentB: Int
+                when (format) {
+                    "P1" -> {
+                        val binary = if (p.r < 128) 0 else 1
+                        currentR = binary; currentG = 0; currentB = 0
+                    }
+                    "P2" -> {
+                        currentR = p.r; currentG = 0; currentB = 0
+                    }
+                    else -> {
+                        currentR = p.r; currentG = p.g; currentB = p.b
+                    }
+                }
+                if (count == 0) {
+                    lastR = currentR
+                    lastG = currentG
+                    lastB = currentB
+                    count = 1
+                } else {
+                    val areEqual = when(format) {
+                        "P3" -> (currentR == lastR && currentG == lastG && currentB == lastB)
+                        else -> (currentR == lastR)
+                    }
+                    if (areEqual) {
+                        count++
+                    } else {
+                        writeRLEGroup(writer, format, lastR, lastG, lastB, count)
+                        lastR = currentR
+                        lastG = currentG
+                        lastB = currentB
+                        count = 1
+                    }
+                }
+            }
+        }
+        if (count > 0) {
+            writeRLEGroup(writer, format, lastR, lastG, lastB, count)
+        }
+        writer.close()
+    }
+    private fun writeRLEGroup(writer: BufferedWriter, format: String, r: Int, g: Int, b: Int, count: Int) {
+        when (format) {
+            "P1" -> {
+                writer.write("$r $count\n")
+            }
+            "P2" -> {
+                writer.write("$r $count\n")
+            }
+            "P3" -> {
+                writer.write("$r $g $b $count\n")
+            }
+        }
     }
 }
