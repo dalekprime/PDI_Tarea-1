@@ -18,28 +18,37 @@ class ChartStateController {
         this.histogramChart = histogramChart
         this.toneCurveChart = toneCurveChart
         this.perfilerChart = perfilerChart
+        histogramChart.animated = false
+        histogramChart.createSymbols = false
+        toneCurveChart.animated = false
+        toneCurveChart.createSymbols = false
+        perfilerChart.animated = false
+        perfilerChart.createSymbols = false
     }
     //Actualiza el Histograma
     fun updateHistogram(imageMatrix: ImageMatrix?, channel: String) {
         imageMatrix?:return
+        val getVal: (Int, Int) -> Int = when (channel) {
+            "R" -> { y, x -> imageMatrix.pixels[y][x].r }
+            "G" -> { y, x -> imageMatrix.pixels[y][x].g }
+            "B" -> { y, x -> imageMatrix.pixels[y][x].b }
+            else -> { _, _ -> 0 }
+        }
         val frequency = IntArray(256)
         val width = imageMatrix.width
         val height = imageMatrix.height
         for (y in 0 until height) {
             for (x in 0 until width) {
-                val color: Int = when (channel) {
-                    "R" -> imageMatrix.pixels[y][x].r
-                    "G" -> imageMatrix.pixels[y][x].g
-                    "B" -> imageMatrix.pixels[y][x].b
-                    else -> -1
-                }
-                frequency[color.coerceIn(0,255)] += 1
+                val color = getVal(y, x).coerceIn(0, 255)
+                frequency[color]++
             }
         }
-        val series = XYChart.Series<Number, Number>()
+        val dataList = ArrayList<XYChart.Data<Number, Number>>(256)
         for (i in 0 until 256) {
-            series.data.add(XYChart.Data(i, frequency[i]))
+            dataList.add(XYChart.Data(i, frequency[i]))
         }
+        val series = XYChart.Series<Number, Number>()
+        series.data.setAll(dataList)
         histogramChart.data.clear()
         histogramChart.data.add(series)
     }
@@ -51,36 +60,41 @@ class ChartStateController {
             toneCurveChart.data.clear()
             return
         }
+        val getOriginal: (Int, Int) -> Int = when (channel) {
+            "R" -> { y, x -> originalImage.pixels[y][x].r }
+            "G" -> { y, x -> originalImage.pixels[y][x].g }
+            "B" -> { y, x -> originalImage.pixels[y][x].b }
+            else -> { _, _ -> -1 }
+        }
+        val getActual: (Int, Int) -> Int = when (channel) {
+            "R" -> { y, x -> actualImage.pixels[y][x].r }
+            "G" -> { y, x -> actualImage.pixels[y][x].g }
+            "B" -> { y, x -> actualImage.pixels[y][x].b }
+            else -> { _, _ -> -1 }
+        }
         val lookupTable = IntArray(256) { -1 }
         val width = originalImage.width
         val height = originalImage.height
-        for (y in 0 until height) {
-            for (x in 0 until width) {
-                val valOriginal: Int = when (channel) {
-                    "R" -> originalImage.pixels[y][x].r
-                    "G" -> originalImage.pixels[y][x].g
-                    "B" -> originalImage.pixels[y][x].b
-                    else -> -1
-                }
-                val valNuevo: Int = when (channel) {
-                    "R" -> actualImage.pixels[y][x].r
-                    "G" -> actualImage.pixels[y][x].g
-                    "B" -> actualImage.pixels[y][x].b
-                    else -> -1
-                }
+        val step = if (width * height > 1_000_000) 4 else 1
+        for (y in 0 until height step step) {
+            for (x in 0 until width step step) {
+                val valOriginal = getOriginal(y, x)
+                val valNuevo = getActual(y, x)
+
                 if (valOriginal in 0..255 && valNuevo != -1) {
-                    val safeNuevo = valNuevo.coerceIn(0, 255)
-                    lookupTable[valOriginal] = safeNuevo
+                    lookupTable[valOriginal] = valNuevo.coerceIn(0, 255)
                 }
             }
         }
-        val series = XYChart.Series<Number, Number>()
+        val dataList = ArrayList<XYChart.Data<Number, Number>>()
         for (inputVal in 0 until 256) {
             val outputVal = lookupTable[inputVal]
             if (outputVal != -1) {
-                series.data.add(XYChart.Data(inputVal, outputVal))
+                dataList.add(XYChart.Data(inputVal, outputVal))
             }
         }
+        val series = XYChart.Series<Number, Number>()
+        series.data.setAll(dataList)
         toneCurveChart.data.clear()
         toneCurveChart.data.add(series)
     }
@@ -92,17 +106,22 @@ class ChartStateController {
             println("Error: La línea $line no existe")
             return
         }
-        val series = XYChart.Series<Number, Number>()
-        series.name = "Fila $line"
-        for (x in 0 until width) {
-            val color: Int = when (channel) {
-                "R" -> imageMatrix.pixels[line][x].r
-                "G" -> imageMatrix.pixels[line][x].g
-                "B" -> imageMatrix.pixels[line][x].b
-                else -> -1
-            }
-            series.data.add(XYChart.Data(x, color))
+        val getVal: (Int) -> Int = when (channel) {
+            "R" -> { x -> imageMatrix.pixels[line][x].r }
+            "G" -> { x -> imageMatrix.pixels[line][x].g }
+            "B" -> { x -> imageMatrix.pixels[line][x].b }
+            else -> { _ -> 0 }
         }
+        val maxPoints = 1500
+        val step = if (width > maxPoints) (width / maxPoints) + 1 else 1
+        val dataList = ArrayList<XYChart.Data<Number, Number>>()
+        for (x in 0 until width step step) {
+            val color = getVal(x)
+            dataList.add(XYChart.Data(x, color))
+        }
+        val series = XYChart.Series<Number, Number>()
+        series.name = "Fila $line ($channel)"
+        series.data.setAll(dataList)
         perfilerChart.data.clear()
         perfilerChart.data.add(series)
     }

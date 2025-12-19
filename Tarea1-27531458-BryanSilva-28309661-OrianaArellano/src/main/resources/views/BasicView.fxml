@@ -361,7 +361,7 @@
                                                                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPerfilado4Click" text="Perfil 4" />
                                                                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPerfilado8Click" text="Perfil 8" GridPane.columnIndex="1" />
                                                                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onApplyGradientClick" text="Gradiente" GridPane.rowIndex="1" />
-                                                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCustomKernelButtonClick" text="Custom" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCustomKernelButtonClick" text="Custom Kernel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                                             </children>
                                                         </GridPane>
                                                     </children>

@@ -214,6 +214,7 @@ class BasicViewController {
     @FXML
     fun onUmbralButtonClick(event: ActionEvent){
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         umbralizerController.simpleUmbral(matrixImage!!, umbralSlider.value)
         imageController.changeView(matrixImage!!)
     }
@@ -565,10 +566,8 @@ class BasicViewController {
 
     @FXML
     fun onApplyGradientClick(event: ActionEvent) {
-        if (matrixImage == null) {
-            println("No hay imagen cargada para aplicar gradiente")
-            return
-        }
+        matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
 
         val gx: ImageMatrix
         val gy: ImageMatrix
