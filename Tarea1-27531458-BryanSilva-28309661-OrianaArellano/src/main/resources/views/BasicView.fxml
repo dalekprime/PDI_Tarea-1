@@ -225,7 +225,9 @@
                                        </RadioButton>
                                    </children>
                                </HBox>
-                              <Button layoutX="11.0" layoutY="415.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Gradiente" />
+                               <HBox layoutX="14.0" layoutY="470.0" spacing="10.0">
+                               </HBox>
+                               <Button layoutX="11.0" layoutY="415.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" onAction="#onApplyGradientClick" text="Gradiente" />
                               <Button layoutX="12.0" layoutY="379.0" mnemonicParsing="false" onAction="#onPerfilado4Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 4" />
                               <Button layoutX="98.0" layoutY="379.0" mnemonicParsing="false" onAction="#onPerfilado8Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 8" />
                               <Button layoutX="11.0" layoutY="475.0" mnemonicParsing="false" onAction="#onCustomKernelButtonClick" text="Kernel Personalizado" />

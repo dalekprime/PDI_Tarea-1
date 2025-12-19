@@ -258,4 +258,15 @@ class ImageMatrix {
         matrixCopy.header = header
         return matrixCopy
     }
+    operator fun get(y: Int, x: Int): Double {
+        val pixel = pixels[y][x]
+        // Puedes usar solo el canal R si estás trabajando en escala de grises
+        return pixel.r.toDouble()
+    }
+
+    operator fun set(y: Int, x: Int, value: Double) {
+        val v = value.toInt().coerceIn(0, 255)
+        pixels[y][x] = Pixel(v, v, v)
+    }
+
 }

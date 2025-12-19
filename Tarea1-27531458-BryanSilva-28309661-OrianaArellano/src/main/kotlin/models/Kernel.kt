@@ -105,24 +105,19 @@ class Kernel {
     }
     fun generatePrewitt(rows: Int, cols: Int, orientation: String): Kernel {
         val k = Kernel(rows, cols)
-        if (orientation == "X") {
+        val centerRow = rows / 2
+        val centerCol = cols / 2
+
+        if (orientation.uppercase() == "X") {
             for (y in 0 until rows) {
                 for (x in 0 until cols) {
-                    k.matrix[y][x] = when {
-                        x < cols / 2 -> -1.0
-                        x == cols / 2 -> 0.0
-                        else -> 1.0
-                    }
+                    k.matrix[y][x] = (x - centerCol).toDouble()
                 }
             }
         } else {
             for (y in 0 until rows) {
                 for (x in 0 until cols) {
-                    k.matrix[y][x] = when {
-                        y < rows / 2 -> -1.0
-                        y == rows / 2 -> 0.0
-                        else -> 1.0
-                    }
+                    k.matrix[y][x] = (y - centerRow).toDouble()
                 }
             }
         }
@@ -131,19 +126,32 @@ class Kernel {
 
     fun generateSobel(rows: Int, cols: Int, orientation: String): Kernel {
         val k = Kernel(rows, cols)
-        if (orientation == "X") {
-            for (y in 0 until rows) {
-                for (x in 0 until cols) {
-                    k.matrix[y][x] = (x - cols / 2).toDouble()
+        val centerRow = rows / 2
+        val centerCol = cols / 2
+        val scale = when {
+            rows == 3 && cols == 3 -> 2.0
+            rows == 5 && cols == 5 -> 20.0
+            rows == 7 && cols == 7 -> 4680.0
+            else -> (rows * cols * 4).toDouble()
+        }
+
+        for (y in 0 until rows) {
+            for (x in 0 until cols) {
+                val i = x - centerCol
+                val j = y - centerRow
+                val denom = (i * i + j * j).toDouble()
+
+                val value = when {
+                    denom == 0.0 -> 0.0
+                    orientation.uppercase() == "X" -> (i / denom) * scale
+                    orientation.uppercase() == "Y" -> (j / denom) * scale
+                    else -> throw IllegalArgumentException("Orientación inválida: usa 'X' o 'Y'")
                 }
-            }
-        } else {
-            for (y in 0 until rows) {
-                for (x in 0 until cols) {
-                    k.matrix[y][x] = (y - rows / 2).toDouble()
-                }
+
+                k.matrix[y][x] = Math.round(value).toDouble()
             }
         }
+
         return k
     }
 

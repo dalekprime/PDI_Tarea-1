@@ -442,6 +442,8 @@ class BasicViewController {
     @FXML
     lateinit var orientationGroupRoberts: ToggleGroup
 
+    private var lastFilter: Int = 0 // 0 = ninguno, 1 = Sobel, 2 = Prewitt, 3 = Roberts
+
     @FXML
     fun onApplyRobertsClick(event: ActionEvent) {
         if (matrixImage == null) {
@@ -451,9 +453,11 @@ class BasicViewController {
         val orientation = if (radioXRoberts.isSelected) "X" else "Y"
 
         val kernel = Kernel(2,2).generateRoberts(orientation)
+        printKernel(kernel)
         val result = ConvolutionController().apply(matrixImage!!, kernel)
         matrixImage = result
         imageController.changeView(matrixImage!!)
+        lastFilter = 3
     }
 
     @FXML
@@ -476,10 +480,12 @@ class BasicViewController {
         val rows = rowsSpinnerSobel.value
         val cols = colsSpinnerSobel.value
         val orientation = if (radioXSobel.isSelected) "X" else "Y"
-        val kernel = Kernel(rows,cols).generateSobel(rows, cols, orientation)   // <-- llamada al filtro Sobel
+        val kernel = Kernel(rows,cols).generateSobel(rows, cols, orientation)
+        printKernel(kernel)
         val result = ConvolutionController().apply(matrixImage!!, kernel)
         matrixImage = result
         imageController.changeView(matrixImage!!)
+        lastFilter = 1
     }
 
     @FXML
@@ -503,13 +509,86 @@ class BasicViewController {
         val cols = colsSpinnerPrewitt.value
         val orientation = if (radioXPrewitt.isSelected) "X" else "Y"
 
-        val kernel = Kernel(rows,cols).generatePrewitt(rows, cols, orientation) // <-- llamada al filtro Prewitt
+        val kernel = Kernel(rows,cols).generatePrewitt(rows, cols, orientation)
+        printKernel(kernel)
         val result = ConvolutionController().apply(matrixImage!!, kernel)
         matrixImage = result
         imageController.changeView(matrixImage!!)
+        lastFilter = 2
+    }
+
+    fun printKernel(kernel: Kernel) {
+        println("Kernel (${kernel.height}x${kernel.width}):")
+        for (y in 0 until kernel.height) {
+            for (x in 0 until kernel.width) {
+                print(String.format("%6.2f ", kernel.matrix[y][x]))
+            }
+            println()
+        }
     }
 
 
+    @FXML
+    lateinit var radioSobel: RadioButton
+    @FXML
+    lateinit var radioPrewitt: RadioButton
+    @FXML
+    lateinit var radioRoberts: RadioButton
 
+    @FXML
+    fun onApplyGradientClick(event: ActionEvent) {
+        if (matrixImage == null) {
+            println("No hay imagen cargada para aplicar gradiente")
+            return
+        }
+
+        val gx: ImageMatrix
+        val gy: ImageMatrix
+
+        when (lastFilter) {
+            1 -> {
+                val rows = rowsSpinnerSobel.value
+                val cols = colsSpinnerSobel.value
+                val kernelX = Kernel(rows, cols).generateSobel(rows, cols, "X")
+                val kernelY = Kernel(rows, cols).generateSobel(rows, cols, "Y")
+                gx = ConvolutionController().apply(matrixImage!!, kernelX)
+                gy = ConvolutionController().apply(matrixImage!!, kernelY)
+            }
+            2 -> {
+                val rows = rowsSpinnerPrewitt.value
+                val cols = colsSpinnerPrewitt.value
+                val kernelX = Kernel(rows, cols).generatePrewitt(rows, cols, "X")
+                val kernelY = Kernel(rows, cols).generatePrewitt(rows, cols, "Y")
+                gx = ConvolutionController().apply(matrixImage!!, kernelX)
+                gy = ConvolutionController().apply(matrixImage!!, kernelY)
+            }
+            3 -> {
+                val kernelX = Kernel(2, 2).generateRoberts("X")
+                val kernelY = Kernel(2, 2).generateRoberts("Y")
+                gx = ConvolutionController().apply(matrixImage!!, kernelX)
+                gy = ConvolutionController().apply(matrixImage!!, kernelY)
+            }
+            else -> {
+                println("No se ha aplicado ningún filtro antes del gradiente")
+                return
+            }
+        }
+        val gradient = combineGradient(gx, gy)
+        matrixImage = gradient
+        imageController.changeView(matrixImage!!)
+    }
+
+    fun combineGradient(gx: ImageMatrix, gy: ImageMatrix): ImageMatrix {
+        val result = ImageMatrix(width = gx.width, height = gx.height)
+        for (y in 0 until gx.height) {
+            for (x in 0 until gx.width) {
+                val valueX = gx[y, x]
+                val valueY = gy[y, x]
+                val magnitude = kotlin.math.sqrt(valueX * valueX + valueY * valueY)
+                result[y, x] = magnitude
+            }
+        }
+        return result
+    }
 
 }
