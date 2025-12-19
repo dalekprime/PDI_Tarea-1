@@ -13,7 +13,7 @@ import java.util.Stack
 import javax.imageio.ImageIO
 
 class ImageStateController {
-
+    private val maxHistorySize = 5
     //Pilas de Control de Version
     private var undoStack: Stack<ImageMatrix>
     private var redoStack: Stack<ImageMatrix>
@@ -74,6 +74,9 @@ class ImageStateController {
         dataController.update(imageMatrix)
     }
     fun saveToHistory(imageState: ImageMatrix) {
+        while (undoStack.size >= maxHistorySize) {
+            undoStack.removeAt(0)
+        }
         undoStack.push(imageState.copy())
         redoStack.clear()
     }
