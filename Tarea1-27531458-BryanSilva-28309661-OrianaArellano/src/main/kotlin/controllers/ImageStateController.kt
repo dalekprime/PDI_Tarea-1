@@ -9,9 +9,14 @@ import java.awt.image.BufferedImage
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.util.Stack
 import javax.imageio.ImageIO
 
 class ImageStateController {
+    private val maxHistorySize = 5
+    //Pilas de Control de Version
+    private var undoStack: Stack<ImageMatrix>
+    private var redoStack: Stack<ImageMatrix>
 
     //Referencias a Información Externa
     private var stage: Stage
@@ -32,6 +37,8 @@ class ImageStateController {
         this.imageView = view
         this.chartController = chartController
         this.dataController = dataController
+        this.undoStack = Stack()
+        this.redoStack = Stack()
     }
     fun loadNewImage(): ImageMatrix?{
         val fileChooser = FileChooser().apply{
@@ -51,6 +58,8 @@ class ImageStateController {
             return null
         }
         dataLabel.text = "Imagen Cargada... ${file.name}"
+        undoStack.clear()
+        redoStack.clear()
         val matrixImage =  ImageMatrix(file)
         matrixImageOriginal = matrixImage.copy()
         changeView(matrixImage)
@@ -63,6 +72,33 @@ class ImageStateController {
         chartController.updateCurve(matrixImageOriginal,imageMatrix, "R")
         //Crear la información Inicial
         dataController.update(imageMatrix)
+    }
+    fun saveToHistory(imageState: ImageMatrix) {
+        while (undoStack.size >= maxHistorySize) {
+            undoStack.removeAt(0)
+        }
+        undoStack.push(imageState.copy())
+        redoStack.clear()
+    }
+    fun undo(imageMatrix: ImageMatrix): ImageMatrix{
+        if (undoStack.isEmpty()) {
+            dataLabel.text = "No hay más acciones para deshacer"
+            return imageMatrix
+        }
+        redoStack.push(imageMatrix.copy())
+        val image = undoStack.pop()
+        changeView(image)
+        return image
+    }
+    fun redo(imageMatrix: ImageMatrix): ImageMatrix{
+        if (redoStack.isEmpty()) {
+            dataLabel.text = "No hay más acciones para deshacer"
+            return imageMatrix
+        }
+        undoStack.push(imageMatrix.copy())
+        val image = redoStack.pop()
+        changeView(image)
+        return image
     }
     fun downloadImageNetpbm(imageMatrix: ImageMatrix){
         val fileChooser = FileChooser()
