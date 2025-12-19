@@ -236,7 +236,7 @@
 
                                 <Tab text="Filtros">
                                     <content>
-                                        <ScrollPane fitToWidth="true" style="-fx-background-color: #3c3f41;">
+                                        <ScrollPane fitToWidth="true" style="-fx-background: #3c3f41; -fx-background-color: transparent;">
                                             <content>
                                                 <VBox spacing="10.0" style="-fx-background-color: #3c3f41;">
                                                     <children>
