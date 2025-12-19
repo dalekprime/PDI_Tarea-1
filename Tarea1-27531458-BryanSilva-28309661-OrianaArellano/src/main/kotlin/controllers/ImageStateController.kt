@@ -107,6 +107,9 @@ class ImageStateController {
         val fileChooser = FileChooser()
         fileChooser.title = "Guardar Imagen"
         fileChooser.initialFileName = "imagen_editada"
+        fileChooser.apply {
+            initialDirectory = File(System.getProperty("user.dir")+"/imagesTest")
+        }
         when (imageMatrix.header) {
             "P1" -> fileChooser.extensionFilters.add(FileChooser.ExtensionFilter("NetPBM Bitmap (P1)", "*.pbm"))
             "P2" -> fileChooser.extensionFilters.add(FileChooser.ExtensionFilter("NetPBM Graymap (P2)", "*.pgm"))
@@ -129,6 +132,9 @@ class ImageStateController {
         val fileChooser = FileChooser()
         fileChooser.title = "Guardar Imagen"
         fileChooser.initialFileName = "imagen_editada"
+        fileChooser.apply {
+            initialDirectory = File(System.getProperty("user.dir")+"/imagesTest")
+        }
         fileChooser.extensionFilters.add(FileChooser.ExtensionFilter("PNG", "*.png"))
         val file = fileChooser.showSaveDialog(stage)?: return
         try {
@@ -142,6 +148,9 @@ class ImageStateController {
         val fileChooser = FileChooser()
         fileChooser.title = "Guardar Imagen"
         fileChooser.initialFileName = "imagen_editada"
+        fileChooser.apply {
+            initialDirectory = File(System.getProperty("user.dir")+"/imagesTest")
+        }
         fileChooser.extensionFilters.add(FileChooser.ExtensionFilter("BMP", "*.bmp"))
         val file = fileChooser.showSaveDialog(stage)?: return
         try {
@@ -156,6 +165,7 @@ class ImageStateController {
             title = "Guardar comprimido RLE"
             initialFileName = "imagen_comprimida.rle"
             extensionFilters.add(FileChooser.ExtensionFilter("Run Length Encoding", "*.rle"))
+            initialDirectory = File(System.getProperty("user.dir")+"/imagesTest")
         }
         val file = fileChooser.showSaveDialog(stage) ?: return
         try {

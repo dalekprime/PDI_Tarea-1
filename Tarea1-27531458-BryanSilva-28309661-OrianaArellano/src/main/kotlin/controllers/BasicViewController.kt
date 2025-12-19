@@ -209,6 +209,22 @@ class BasicViewController {
                 rowsSpinnerPrewitt.valueFactory.value = 2
             }
         }
+        //Brillo en Tiempo Real
+        lightSlider.valueProperty().addListener { _, _, newValue ->
+            if (matrixImage != null) {
+                val previewImage = matrixImage!!.copy()
+                ligthController.brightness(previewImage, newValue.toDouble())
+                mainImageView.image = previewImage.matrixToImage()
+            }
+        }
+        //Contraste en Tiempo Real
+        contrastSlider.valueProperty().addListener { _, _, newValue ->
+            if (matrixImage != null) {
+                val previewImage = matrixImage!!.copy()
+                ligthController.contrast(previewImage, newValue.toDouble())
+                mainImageView.image = previewImage.matrixToImage()
+            }
+        }
     }
 
     //Umbral Simple
@@ -269,6 +285,7 @@ class BasicViewController {
         imageController.saveToHistory(matrixImage!!)
         ligthController.brightness(matrixImage!!, lightSlider.value)
         imageController.changeView(matrixImage!!)
+        lightSlider.value = 0.0
     }
     //Cambio de Contraste
     @FXML
@@ -279,6 +296,7 @@ class BasicViewController {
         imageController.saveToHistory(matrixImage!!)
         ligthController.contrast(matrixImage!!, contrastSlider.value)
         imageController.changeView(matrixImage!!)
+        contrastSlider.value = 1.0
     }
     //Espejo Horizontal
     @FXML
@@ -421,7 +439,7 @@ class BasicViewController {
             return
         }
         val size = gaussFilterSize.text.toInt()
-        if (size == 0 ||size < 7){
+        if (size == 0 ||size > 7){
             applicationConsole.text = "Fuera de Rango..."
             return
         }
@@ -441,7 +459,7 @@ class BasicViewController {
             return
         }
         val size = medianFilterSize.text.toInt()
-        if (size == 0 || size < 7){
+        if (size == 0 || size > 7){
             applicationConsole.text = "Fuera de Rango"
             return
         }

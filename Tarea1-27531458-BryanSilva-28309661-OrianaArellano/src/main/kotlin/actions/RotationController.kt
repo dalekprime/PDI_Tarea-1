@@ -1,6 +1,7 @@
 package actions
 
 import models.ImageMatrix
+import models.Pixel
 
 class RotationController {
     //Espejo Horizontal
@@ -12,7 +13,8 @@ class RotationController {
         newImage.header = imageMatrix.header
         for (y in 0 until height) {
             for (x in 0 until width) {
-                newImage.pixels[y][x] = imageMatrix.pixels[y][width-1-x]
+                val p = imageMatrix.pixels[y][width-1-x]
+                newImage.pixels[y][x] = Pixel(p.r, p.g, p.b)
             }
         }
         return newImage
@@ -26,7 +28,8 @@ class RotationController {
         newImage.header = imageMatrix.header
         for (y in 0 until height) {
             for (x in 0 until width) {
-                newImage.pixels[y][x] = imageMatrix.pixels[height-1-y][x]
+                val p = imageMatrix.pixels[height-1-y][x]
+                newImage.pixels[y][x] = Pixel(p.r, p.g, p.b)
             }
         }
         return newImage
@@ -40,7 +43,8 @@ class RotationController {
         newImage.header = imageMatrix.header
         for (y in 0 until width) {
             for (x in 0 until height) {
-                newImage.pixels[y][x] = imageMatrix.pixels[height-1-x][y]
+                val p = imageMatrix.pixels[height-1-x][y]
+                newImage.pixels[y][x] = Pixel(p.r, p.g, p.b)
             }
         }
         return newImage
@@ -54,7 +58,8 @@ class RotationController {
         newImage.header = imageMatrix.header
         for (y in 0 until height) {
             for (x in 0 until width) {
-                newImage.pixels[y][x] = imageMatrix.pixels[height-1-y][width-1-x]
+                val p = imageMatrix.pixels[height-1-y][width-1-x]
+                newImage.pixels[y][x] = Pixel(p.r, p.g, p.b)
             }
         }
         return newImage
@@ -68,7 +73,8 @@ class RotationController {
         newImage.header = imageMatrix.header
         for (y in 0 until width) {
             for (x in 0 until height) {
-                newImage.pixels[y][x] = imageMatrix.pixels[x][width-1-y]
+                val p = imageMatrix.pixels[x][width-1-y]
+                newImage.pixels[y][x] = Pixel(p.r, p.g, p.b)
             }
         }
         return newImage
