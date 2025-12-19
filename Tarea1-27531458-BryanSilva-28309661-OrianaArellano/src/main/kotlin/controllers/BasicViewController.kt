@@ -73,6 +73,7 @@ class BasicViewController {
     //Data
     private var matrixImage: ImageMatrix? = null
     private var originalImage: ImageMatrix? = null
+    private var originalGeometryImage: ImageMatrix? = null
 
     //Estado del canal visualizado en el Histograma
     @FXML
@@ -127,7 +128,9 @@ class BasicViewController {
         noLinearController = NoLinearController()
         //Leer Imagen Inicial y crea una copia
         matrixImage = imageController.loadNewImage()
+        matrixImage?: return
         originalImage = matrixImage!!.copy()
+        originalGeometryImage = matrixImage!!.copy()
     }
     //Descargar imagenes
     @FXML
@@ -281,6 +284,8 @@ class BasicViewController {
     @FXML
     fun onMirrorHClick(event: ActionEvent) {
         matrixImage?:return
+        originalGeometryImage = rotationController.mirrorH(originalGeometryImage!!)
+        imageController.changeOriginalRotatedOrZoom(originalGeometryImage!!)
         imageController.saveToHistory(matrixImage!!)
         matrixImage = rotationController.mirrorH(matrixImage!!)
         imageController.changeView(matrixImage!!)
@@ -289,6 +294,8 @@ class BasicViewController {
     @FXML
     fun onMirrorVClick(event: ActionEvent) {
         matrixImage?:return
+        originalGeometryImage = rotationController.mirrorV(originalGeometryImage!!)
+        imageController.changeOriginalRotatedOrZoom(originalGeometryImage!!)
         imageController.saveToHistory(matrixImage!!)
         matrixImage = rotationController.mirrorV(matrixImage!!)
         imageController.changeView(matrixImage!!)
@@ -297,6 +304,8 @@ class BasicViewController {
     @FXML
     fun onRotation90Click(event: ActionEvent) {
         matrixImage?:return
+        originalGeometryImage = rotationController.rotation90(originalGeometryImage!!)
+        imageController.changeOriginalRotatedOrZoom(originalGeometryImage!!)
         imageController.saveToHistory(matrixImage!!)
         matrixImage = rotationController.rotation90(matrixImage!!)
         imageController.changeView(matrixImage!!)
@@ -305,6 +314,8 @@ class BasicViewController {
     @FXML
     fun onRotation180Click(event: ActionEvent) {
         matrixImage?:return
+        originalGeometryImage = rotationController.rotation180(originalGeometryImage!!)
+        imageController.changeOriginalRotatedOrZoom(originalGeometryImage!!)
         imageController.saveToHistory(matrixImage!!)
         matrixImage = rotationController.rotation180(matrixImage!!)
         imageController.changeView(matrixImage!!)
@@ -313,6 +324,8 @@ class BasicViewController {
     @FXML
     fun onRotation270Click(event: ActionEvent) {
         matrixImage?:return
+        originalGeometryImage = rotationController.rotation270(originalGeometryImage!!)
+        imageController.changeOriginalRotatedOrZoom(originalGeometryImage!!)
         imageController.saveToHistory(matrixImage!!)
         matrixImage = rotationController.rotation270(matrixImage!!)
         imageController.changeView(matrixImage!!)
@@ -321,6 +334,8 @@ class BasicViewController {
     @FXML
     fun onZoomInNearestClick(event: ActionEvent) {
         matrixImage?:return
+        originalGeometryImage = zoomController.zoomINN(originalGeometryImage!!, 2)
+        imageController.changeOriginalRotatedOrZoom(originalGeometryImage!!)
         imageController.saveToHistory(matrixImage!!)
         matrixImage = zoomController.zoomINN(matrixImage!!, 2)
         imageController.changeView(matrixImage!!)
@@ -328,6 +343,8 @@ class BasicViewController {
     @FXML
     fun onZoomInBilinearClick(event: ActionEvent) {
         matrixImage?:return
+        originalGeometryImage = zoomController.zoomInBLI(originalGeometryImage!!, 2)
+        imageController.changeOriginalRotatedOrZoom(originalGeometryImage!!)
         imageController.saveToHistory(matrixImage!!)
         matrixImage = zoomController.zoomInBLI(matrixImage!!, 2)
         imageController.changeView(matrixImage!!)
@@ -336,6 +353,8 @@ class BasicViewController {
     @FXML
     fun onZoomOutNearestClick(event: ActionEvent) {
         matrixImage?:return
+        originalGeometryImage = zoomController.zoomOutN(originalGeometryImage!!, 2)
+        imageController.changeOriginalRotatedOrZoom(originalGeometryImage!!)
         imageController.saveToHistory(matrixImage!!)
         matrixImage = zoomController.zoomOutN(matrixImage!!, 2)
         imageController.changeView(matrixImage!!)
@@ -343,6 +362,8 @@ class BasicViewController {
     @FXML
     fun onZoomOutSuperSampling(event: ActionEvent) {
         matrixImage?:return
+        originalGeometryImage = zoomController.zoomOutSupersampling(originalGeometryImage!!, 2)
+        imageController.changeOriginalRotatedOrZoom(originalGeometryImage!!)
         imageController.saveToHistory(matrixImage!!)
         matrixImage = zoomController.zoomOutSupersampling(matrixImage!!, 2)
         imageController.changeView(matrixImage!!)
@@ -430,7 +451,6 @@ class BasicViewController {
 
     private fun aplicarPerfilado(kernel: Kernel) {
         matrixImage?:return
-        imageController.saveToHistory(matrixImage!!)
         val convolutionController = ConvolutionController()
         val laplacianImage = convolutionController.apply(matrixImage!!, kernel)
         val width = matrixImage!!.width
@@ -484,9 +504,7 @@ class BasicViewController {
         matrixImage?:return
         imageController.saveToHistory(matrixImage!!)
         val orientation = if (radioXRoberts.isSelected) "X" else "Y"
-
         val kernel = Kernel(2,2).generateRoberts(orientation)
-        printKernel(kernel)
         val result = ConvolutionController().apply(matrixImage!!, kernel)
         matrixImage = result
         imageController.changeView(matrixImage!!)
@@ -512,7 +530,6 @@ class BasicViewController {
         val cols = colsSpinnerSobel.value
         val orientation = if (radioXSobel.isSelected) "X" else "Y"
         val kernel = Kernel(rows,cols).generateSobel(rows, cols, orientation)
-        printKernel(kernel)
         val result = ConvolutionController().apply(matrixImage!!, kernel)
         matrixImage = result
         imageController.changeView(matrixImage!!)
@@ -537,25 +554,12 @@ class BasicViewController {
         val rows = rowsSpinnerPrewitt.value
         val cols = colsSpinnerPrewitt.value
         val orientation = if (radioXPrewitt.isSelected) "X" else "Y"
-
         val kernel = Kernel(rows,cols).generatePrewitt(rows, cols, orientation)
-        printKernel(kernel)
         val result = ConvolutionController().apply(matrixImage!!, kernel)
         matrixImage = result
         imageController.changeView(matrixImage!!)
         lastFilter = 2
     }
-
-    fun printKernel(kernel: Kernel) {
-        println("Kernel (${kernel.height}x${kernel.width}):")
-        for (y in 0 until kernel.height) {
-            for (x in 0 until kernel.width) {
-                print(String.format("%6.2f ", kernel.matrix[y][x]))
-            }
-            println()
-        }
-    }
-
 
     @FXML
     lateinit var radioSobel: RadioButton

@@ -56,10 +56,10 @@ class ChartStateController {
     fun updateCurve(originalImage: ImageMatrix?, actualImage: ImageMatrix?, channel: String) {
         originalImage ?: return
         actualImage ?: return
-        if (originalImage.width != actualImage.width || originalImage.height != actualImage.height) {
+        /*if (originalImage.width != actualImage.width || originalImage.height != actualImage.height) {
             toneCurveChart.data.clear()
             return
-        }
+        }*/
         val getOriginal: (Int, Int) -> Int = when (channel) {
             "R" -> { y, x -> originalImage.pixels[y][x].r }
             "G" -> { y, x -> originalImage.pixels[y][x].g }
@@ -106,22 +106,17 @@ class ChartStateController {
             println("Error: La línea $line no existe")
             return
         }
-        val getVal: (Int) -> Int = when (channel) {
-            "R" -> { x -> imageMatrix.pixels[line][x].r }
-            "G" -> { x -> imageMatrix.pixels[line][x].g }
-            "B" -> { x -> imageMatrix.pixels[line][x].b }
-            else -> { _ -> 0 }
-        }
-        val maxPoints = 1500
-        val step = if (width > maxPoints) (width / maxPoints) + 1 else 1
-        val dataList = ArrayList<XYChart.Data<Number, Number>>()
-        for (x in 0 until width step step) {
-            val color = getVal(x)
-            dataList.add(XYChart.Data(x, color))
-        }
         val series = XYChart.Series<Number, Number>()
-        series.name = "Fila $line ($channel)"
-        series.data.setAll(dataList)
+        series.name = "Fila $line"
+        for (x in 0 until width) {
+            val color: Int = when (channel) {
+                "R" -> imageMatrix.pixels[line][x].r
+                "G" -> imageMatrix.pixels[line][x].g
+                "B" -> imageMatrix.pixels[line][x].b
+                else -> -1
+            }
+            series.data.add(XYChart.Data(x, color))
+        }
         perfilerChart.data.clear()
         perfilerChart.data.add(series)
     }

@@ -73,6 +73,9 @@ class ImageStateController {
         //Crear la información Inicial
         dataController.update(imageMatrix)
     }
+    fun changeOriginalRotatedOrZoom(imageMatrix: ImageMatrix){
+        matrixImageOriginal = imageMatrix.copy()
+    }
     fun saveToHistory(imageState: ImageMatrix) {
         while (undoStack.size >= maxHistorySize) {
             undoStack.removeAt(0)
