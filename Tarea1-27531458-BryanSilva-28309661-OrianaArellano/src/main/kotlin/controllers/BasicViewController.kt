@@ -91,7 +91,7 @@ class BasicViewController {
     fun onRadioCurveClick(event: ActionEvent) {
         matrixImage?:return
         val channel = (tonalCurve.selectedToggle as RadioButton).text
-        chartController.updateCurve(originalImage,matrixImage, channel)
+        chartController.updateCurve(originalGeometryImage,matrixImage, channel)
     }
     //Estado del canal visualizado en el Perfil de Imagen
     @FXML
