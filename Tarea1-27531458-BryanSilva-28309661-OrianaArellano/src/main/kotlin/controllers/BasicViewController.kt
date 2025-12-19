@@ -27,6 +27,7 @@ import javafx.stage.Stage
 import models.ImageMatrix
 import models.Kernel
 import models.Pixel
+import java.awt.Desktop
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -174,6 +175,25 @@ class BasicViewController {
         matrixImage = imageController.redo(matrixImage!!)
     }
 
+    //Boton About
+    @FXML
+    fun onAboutClick(event: ActionEvent) {
+        val currentDir = File(System.getProperty("user.dir"))
+        val parentDir = currentDir.parentFile
+        val file = File(parentDir ?: currentDir, "README.md")
+        print(file.absolutePath)
+        if (file.exists()) {
+            try {
+                val desktop = Desktop.getDesktop()
+                desktop.open(file)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                applicationConsole.text = "No se pudo abrir el archivo..."
+            }
+        } else {
+            applicationConsole.text = "Archivo no encontrado..."
+        }
+    }
     //Inicializar estado
     @FXML
     private lateinit var dataPanel: TitledPane
