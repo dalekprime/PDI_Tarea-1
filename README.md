@@ -30,7 +30,7 @@ cualquier momento.
 5 estados almacenados.
 
 - Los filtos de Gauss y Mediana fueron implementados únicamente en formas cuadradas 
-(ej. 3×3, 5×5).
+(ej. 3×3, 5×5). Además el número máximo aceptado es 7 en ambas.
 
 - Los filtros de Promedio, Prewitt y Sobel aceptan cualquier combinación rectangular desde 
 1×2 o 2×1 hasta 7×7.
@@ -40,7 +40,10 @@ cualquier momento.
 - Se puede visualizar la curva tonal y el histograma en cualquiera de los canales RGB.
 
 - Se tiene dos formas de hacer zoom in, con el Nearest Neighbor y la interpolación bilineal. 
-Y dos formas de hacer zoom out, con el Nearest Neighbor y Super Sampling. 
+Y dos formas de hacer zoom out, con el Nearest Neighbor y Super Sampling.
+
+- El brillo y el contraste se aplican en tiempo real y para asegurar el cambio hay que
+oprimir el botón abajo del slider.
 
 - Cualquier imagen puede ser guardada en cualquiera de los formatos y por defecto imagenes
 que hubieran sido cargadas como png, bpm o ppm, si se eligiera formato rle seran guardadas

@@ -157,7 +157,9 @@ class BasicViewController {
     @FXML
     fun onOriginalButtton(event: ActionEvent) {
         originalImage?:return
-        imageController.changeView(originalImage!!)
+        matrixImage = originalImage!!.copy()
+        originalGeometryImage = originalImage!!.copy()
+        imageController.changeView(matrixImage!!)
     }
 
     //Control de Undo y Redo
