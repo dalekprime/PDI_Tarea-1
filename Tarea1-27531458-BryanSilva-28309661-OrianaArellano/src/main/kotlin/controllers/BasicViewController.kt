@@ -181,7 +181,6 @@ class BasicViewController {
         val currentDir = File(System.getProperty("user.dir"))
         val parentDir = currentDir.parentFile
         val file = File(parentDir ?: currentDir, "README.md")
-        print(file.absolutePath)
         if (file.exists()) {
             try {
                 val desktop = Desktop.getDesktop()

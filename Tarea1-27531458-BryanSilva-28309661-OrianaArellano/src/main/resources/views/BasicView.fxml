@@ -50,11 +50,10 @@
                         <MenuItem mnemonicParsing="false" onAction="#onOriginalButtton" text="Restaurar Original" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Extras">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#onAboutClick" text="About" />
-                    </items>
-                </Menu>
+                <Menu mnemonicParsing="false" text="About">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#onAboutClick" text="About" />
+               </items></Menu>
             </menus>
         </MenuBar>
         <HBox prefHeight="600.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
