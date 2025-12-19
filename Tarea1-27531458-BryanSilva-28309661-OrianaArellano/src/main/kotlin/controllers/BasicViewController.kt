@@ -16,6 +16,8 @@ import javafx.scene.control.ColorPicker
 import javafx.scene.control.Label
 import javafx.scene.control.RadioButton
 import javafx.scene.control.Slider
+import javafx.scene.control.Spinner
+import javafx.scene.control.SpinnerValueFactory
 import javafx.scene.control.TextField
 import javafx.scene.control.TitledPane
 import javafx.scene.control.ToggleGroup
@@ -163,6 +165,35 @@ class BasicViewController {
     @FXML
     fun initialize() {
         rightAccordion.expandedPane = dataPanel
+        rowsSpinnerSobel.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, 7, 3)
+        colsSpinnerSobel.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, 7, 3)
+
+        rowsSpinnerPrewitt.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, 7, 3)
+        colsSpinnerPrewitt.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(1, 7, 3)
+
+        // Validación cruzada para Sobel
+        rowsSpinnerSobel.valueProperty().addListener { _, _, newValue ->
+            if (newValue == 1 && colsSpinnerSobel.value == 1) {
+                colsSpinnerSobel.valueFactory.value = 2
+            }
+        }
+        colsSpinnerSobel.valueProperty().addListener { _, _, newValue ->
+            if (newValue == 1 && rowsSpinnerSobel.value == 1) {
+                rowsSpinnerSobel.valueFactory.value = 2
+            }
+        }
+
+        // Validación cruzada para Prewitt
+        rowsSpinnerPrewitt.valueProperty().addListener { _, _, newValue ->
+            if (newValue == 1 && colsSpinnerPrewitt.value == 1) {
+                colsSpinnerPrewitt.valueFactory.value = 2
+            }
+        }
+        colsSpinnerPrewitt.valueProperty().addListener { _, _, newValue ->
+            if (newValue == 1 && rowsSpinnerPrewitt.value == 1) {
+                rowsSpinnerPrewitt.valueFactory.value = 2
+            }
+        }
     }
 
     //Umbral Simple
@@ -413,6 +444,10 @@ class BasicViewController {
 
     @FXML
     fun onApplyRobertsClick(event: ActionEvent) {
+        if (matrixImage == null) {
+            println("No hay imagen cargada para aplicar Roberts")
+            return
+        }
         val orientation = if (radioXRoberts.isSelected) "X" else "Y"
 
         val kernel = Kernel(2,2).generateRoberts(orientation)
@@ -420,6 +455,60 @@ class BasicViewController {
         matrixImage = result
         imageController.changeView(matrixImage!!)
     }
+
+    @FXML
+    lateinit var radioXSobel: RadioButton
+    @FXML
+    lateinit var radioYSobel: RadioButton
+    @FXML
+    lateinit var orientationGroupSobel: ToggleGroup
+    @FXML
+    lateinit var rowsSpinnerSobel: Spinner<Int>
+    @FXML
+    lateinit var colsSpinnerSobel: Spinner<Int>
+
+    @FXML
+    fun onApplySobelClick(event: ActionEvent) {
+        if (matrixImage == null) {
+            println("No hay imagen cargada para aplicar Sobel")
+            return
+        }
+        val rows = rowsSpinnerSobel.value
+        val cols = colsSpinnerSobel.value
+        val orientation = if (radioXSobel.isSelected) "X" else "Y"
+        val kernel = Kernel(rows,cols).generateSobel(rows, cols, orientation)   // <-- llamada al filtro Sobel
+        val result = ConvolutionController().apply(matrixImage!!, kernel)
+        matrixImage = result
+        imageController.changeView(matrixImage!!)
+    }
+
+    @FXML
+    lateinit var radioXPrewitt: RadioButton
+    @FXML
+    lateinit var radioYPrewitt: RadioButton
+    @FXML
+    lateinit var orientationGroupPrewitt: ToggleGroup
+    @FXML
+    lateinit var rowsSpinnerPrewitt: Spinner<Int>
+    @FXML
+    lateinit var colsSpinnerPrewitt: Spinner<Int>
+
+    @FXML
+    fun onApplyPrewittClick(event: ActionEvent) {
+        if (matrixImage == null) {
+            println("No hay imagen cargada para aplicar Prewitt")
+            return
+        }
+        val rows = rowsSpinnerPrewitt.value
+        val cols = colsSpinnerPrewitt.value
+        val orientation = if (radioXPrewitt.isSelected) "X" else "Y"
+
+        val kernel = Kernel(rows,cols).generatePrewitt(rows, cols, orientation) // <-- llamada al filtro Prewitt
+        val result = ConvolutionController().apply(matrixImage!!, kernel)
+        matrixImage = result
+        imageController.changeView(matrixImage!!)
+    }
+
 
 
 

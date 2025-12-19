@@ -103,7 +103,48 @@ class Kernel {
         }
         return k
     }
+    fun generatePrewitt(rows: Int, cols: Int, orientation: String): Kernel {
+        val k = Kernel(rows, cols)
+        if (orientation == "X") {
+            for (y in 0 until rows) {
+                for (x in 0 until cols) {
+                    k.matrix[y][x] = when {
+                        x < cols / 2 -> -1.0
+                        x == cols / 2 -> 0.0
+                        else -> 1.0
+                    }
+                }
+            }
+        } else {
+            for (y in 0 until rows) {
+                for (x in 0 until cols) {
+                    k.matrix[y][x] = when {
+                        y < rows / 2 -> -1.0
+                        y == rows / 2 -> 0.0
+                        else -> 1.0
+                    }
+                }
+            }
+        }
+        return k
+    }
 
-
+    fun generateSobel(rows: Int, cols: Int, orientation: String): Kernel {
+        val k = Kernel(rows, cols)
+        if (orientation == "X") {
+            for (y in 0 until rows) {
+                for (x in 0 until cols) {
+                    k.matrix[y][x] = (x - cols / 2).toDouble()
+                }
+            }
+        } else {
+            for (y in 0 until rows) {
+                for (x in 0 until cols) {
+                    k.matrix[y][x] = (y - rows / 2).toDouble()
+                }
+            }
+        }
+        return k
+    }
 
 }

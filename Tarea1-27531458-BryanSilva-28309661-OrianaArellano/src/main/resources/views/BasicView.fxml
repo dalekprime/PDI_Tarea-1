@@ -149,7 +149,7 @@
                                <Button layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#onMeanButtonClick" prefHeight="25.0" prefWidth="80.0" text="Promedio" />
                                <Button layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#onGaussButtonClick" prefHeight="25.0" prefWidth="80.0" text="Gauss" />
                                <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#onMedianButtonClick" prefHeight="25.0" prefWidth="80.0" text="Mediana" />
-                               <Button layoutX="14.0" layoutY="176.0" text="Sobel" />
+                               <Button layoutX="14.0" layoutY="176.0" text="Sobel" onAction="#onApplySobelClick"/>
                                <HBox layoutX="70.0" layoutY="168.0" prefHeight="10.0" prefWidth="222.0">
                                    <children>
                                        <RadioButton fx:id="radioXSobel" mnemonicParsing="false" selected="true" text="X">
@@ -175,7 +175,7 @@
                                </HBox>
                                <Spinner fx:id="rowsSpinnerSobel" editable="true" layoutX="14.0" layoutY="206.0" prefWidth="60.0" />
                                <Spinner fx:id="colsSpinnerSobel" editable="true" layoutX="80.0" layoutY="206.0" prefWidth="60.0" />
-                               <Button layoutX="14.0" layoutY="246.0" text="Prewitt" />
+                               <Button layoutX="14.0" layoutY="246.0" onAction="#onApplyPrewittClick" text="Prewitt" />
                                <HBox layoutX="70.0" layoutY="238.0" prefHeight="10.0" prefWidth="222.0">
                                    <children>
                                        <RadioButton fx:id="radioXPrewitt" mnemonicParsing="false" selected="true" text="X">
