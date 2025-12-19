@@ -157,6 +157,18 @@ class BasicViewController {
         imageController.changeView(originalImage!!)
     }
 
+    //Control de Undo y Redo
+    @FXML
+    fun onUndoButtonClick(event: ActionEvent) {
+        matrixImage?:return
+        matrixImage = imageController.undo(matrixImage!!)
+    }
+    @FXML
+    fun onRedoButtonClick(event: ActionEvent) {
+        matrixImage?:return
+        matrixImage = imageController.redo(matrixImage!!)
+    }
+
     //Inicializar estado
     @FXML
     private lateinit var dataPanel: TitledPane
@@ -212,6 +224,7 @@ class BasicViewController {
     private lateinit var umbralMultiSup: TextField
     fun onMultiUmbralButtonClick(event: ActionEvent){
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         umbralizerController.multiUmbral(matrixImage!!,
             umbralMultInf.text.toInt(),
             umbralMultiSup.text.toInt())
@@ -221,6 +234,7 @@ class BasicViewController {
     @FXML
     fun onNegativeButtonClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         tonoController.negativeImage(matrixImage!!)
         imageController.changeView(matrixImage!!)
     }
@@ -228,6 +242,7 @@ class BasicViewController {
     @FXML
     fun onGreyscaleButtonClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         tonoController.greyScale(matrixImage!!)
         imageController.changeView(matrixImage!!)
     }
@@ -237,6 +252,7 @@ class BasicViewController {
     @FXML
     fun onColorScalePickerClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         tonoController.colorScale(matrixImage!!, colorScalePicker)
         imageController.changeView(matrixImage!!)
     }
@@ -246,6 +262,7 @@ class BasicViewController {
     @FXML
     fun onBrigthnessButtonClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         ligthController.brightness(matrixImage!!, lightSlider.value)
         imageController.changeView(matrixImage!!)
     }
@@ -255,6 +272,7 @@ class BasicViewController {
     @FXML
     fun onConstrastButtonClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         ligthController.contrast(matrixImage!!, contrastSlider.value)
         imageController.changeView(matrixImage!!)
     }
@@ -262,6 +280,7 @@ class BasicViewController {
     @FXML
     fun onMirrorHClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         matrixImage = rotationController.mirrorH(matrixImage!!)
         imageController.changeView(matrixImage!!)
     }
@@ -269,6 +288,7 @@ class BasicViewController {
     @FXML
     fun onMirrorVClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         matrixImage = rotationController.mirrorV(matrixImage!!)
         imageController.changeView(matrixImage!!)
     }
@@ -276,6 +296,7 @@ class BasicViewController {
     @FXML
     fun onRotation90Click(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         matrixImage = rotationController.rotation90(matrixImage!!)
         imageController.changeView(matrixImage!!)
     }
@@ -283,6 +304,7 @@ class BasicViewController {
     @FXML
     fun onRotation180Click(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         matrixImage = rotationController.rotation180(matrixImage!!)
         imageController.changeView(matrixImage!!)
     }
@@ -290,6 +312,7 @@ class BasicViewController {
     @FXML
     fun onRotation270Click(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         matrixImage = rotationController.rotation270(matrixImage!!)
         imageController.changeView(matrixImage!!)
     }
@@ -297,12 +320,14 @@ class BasicViewController {
     @FXML
     fun onZoomInNearestClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         matrixImage = zoomController.zoomINN(matrixImage!!, 2)
         imageController.changeView(matrixImage!!)
     }
     @FXML
     fun onZoomInBilinearClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         matrixImage = zoomController.zoomInBLI(matrixImage!!, 2)
         imageController.changeView(matrixImage!!)
     }
@@ -310,12 +335,14 @@ class BasicViewController {
     @FXML
     fun onZoomOutNearestClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         matrixImage = zoomController.zoomOutN(matrixImage!!, 2)
         imageController.changeView(matrixImage!!)
     }
     @FXML
     fun onZoomOutSuperSampling(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         matrixImage = zoomController.zoomOutSupersampling(matrixImage!!, 2)
         imageController.changeView(matrixImage!!)
     }
@@ -324,6 +351,7 @@ class BasicViewController {
     @FXML
     fun onCustomKernelButtonClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         val fileChooser = FileChooser().apply{
             title = "Selecionar Imagen"
             extensionFilters.add(FileChooser.ExtensionFilter(
@@ -344,6 +372,7 @@ class BasicViewController {
     @FXML
     fun onMeanButtonClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         if (meanFilterH.text == "" || meanFilterW.text == ""){
             applicationConsole.text = "Debe introducir un valor..."
             return
@@ -364,6 +393,7 @@ class BasicViewController {
     @FXML
     fun onGaussButtonClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         if (gaussFilterSize.text == ""){
             applicationConsole.text = "Debe introducir un valor..."
             return
@@ -383,6 +413,7 @@ class BasicViewController {
     @FXML
     fun onMedianButtonClick(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         if (medianFilterSize.text == ""){
             applicationConsole.text = "Debe introducir un valor..."
             return
@@ -398,6 +429,7 @@ class BasicViewController {
 
     private fun aplicarPerfilado(kernel: Kernel) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         val convolutionController = ConvolutionController()
         val laplacianImage = convolutionController.apply(matrixImage!!, kernel)
         val width = matrixImage!!.width
@@ -426,12 +458,14 @@ class BasicViewController {
     @FXML
     fun onPerfilado8Click(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         aplicarPerfilado(Kernel(3,3).perfilado8())
     }
 
     @FXML
     fun onPerfilado4Click(event: ActionEvent) {
         matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         aplicarPerfilado(Kernel(3,3).perfilado4())
     }
 
@@ -444,10 +478,8 @@ class BasicViewController {
 
     @FXML
     fun onApplyRobertsClick(event: ActionEvent) {
-        if (matrixImage == null) {
-            println("No hay imagen cargada para aplicar Roberts")
-            return
-        }
+        matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         val orientation = if (radioXRoberts.isSelected) "X" else "Y"
 
         val kernel = Kernel(2,2).generateRoberts(orientation)
@@ -469,10 +501,8 @@ class BasicViewController {
 
     @FXML
     fun onApplySobelClick(event: ActionEvent) {
-        if (matrixImage == null) {
-            println("No hay imagen cargada para aplicar Sobel")
-            return
-        }
+        matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         val rows = rowsSpinnerSobel.value
         val cols = colsSpinnerSobel.value
         val orientation = if (radioXSobel.isSelected) "X" else "Y"
@@ -495,10 +525,8 @@ class BasicViewController {
 
     @FXML
     fun onApplyPrewittClick(event: ActionEvent) {
-        if (matrixImage == null) {
-            println("No hay imagen cargada para aplicar Prewitt")
-            return
-        }
+        matrixImage?:return
+        imageController.saveToHistory(matrixImage!!)
         val rows = rowsSpinnerPrewitt.value
         val cols = colsSpinnerPrewitt.value
         val orientation = if (radioXPrewitt.isSelected) "X" else "Y"

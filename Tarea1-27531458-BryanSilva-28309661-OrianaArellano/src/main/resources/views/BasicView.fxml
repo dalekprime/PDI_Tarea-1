@@ -56,213 +56,236 @@
       </MenuBar>
       <HBox prefHeight="600.0" prefWidth="800.0">
          <children>
-            <TabPane prefHeight="548.0" prefWidth="232.0" style="-fx-background-color: #566985;" tabClosingPolicy="UNAVAILABLE">
-              <tabs>
-                <Tab text="Basicos">
-                     <content>
-                        <Accordion>
-                           <panes>
-                              <TitledPane animated="false" text="Tonalidad">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #566985;">
-                                       <children>
-                                          <ColorPicker fx:id="colorScalePicker" layoutX="8.0" layoutY="49.0" />
-                                          <Button layoutX="8.0" layoutY="86.0" mnemonicParsing="false" onAction="#onColorScalePickerClick" prefWidth="80.0" text="Color Scale" />
-                                          <ToggleButton layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#onGreyscaleButtonClick" prefHeight="25.0" prefWidth="80.0" text="GrayScale" />
-                                          <ToggleButton layoutX="9.0" layoutY="123.0" mnemonicParsing="false" onAction="#onNegativeButtonClick" prefHeight="25.0" prefWidth="80.0" text="Negativo" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                              <TitledPane animated="false" text="Zoom/Rotacion">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #566985;">
-                                       <children>
-                                        <Button layoutX="14.0" layoutY="187.0" mnemonicParsing="false" onAction="#onZoomInNearestClick" prefHeight="25.0" prefWidth="90.0" text="ZoomIn NN" />
-                                        <Button layoutX="14.0" layoutY="224.0" mnemonicParsing="false" onAction="#onZoomInBilinearClick" prefHeight="25.0" prefWidth="90.0" text="Zoom In B" />
-                                        <Button layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#onRotation90Click" prefHeight="25.0" prefWidth="90.0" text="Rotacion 90" />
-                                        <Button layoutX="111.0" layoutY="41.0" mnemonicParsing="false" onAction="#onMirrorHClick" text="Espejo H" />
-                                        <Button layoutX="112.0" layoutY="79.0" mnemonicParsing="false" onAction="#onMirrorVClick" text="Espejo V" />
-                                        <Button layoutX="14.0" layoutY="79.0" mnemonicParsing="false" onAction="#onRotation180Click" prefHeight="25.0" prefWidth="90.0" text="Rotacion 180" />
-                                        <Button layoutX="14.0" layoutY="118.0" mnemonicParsing="false" onAction="#onRotation270Click" prefHeight="25.0" prefWidth="90.0" text="Rotacion 270" />
-                                        <Button layoutX="14.0" layoutY="259.0" mnemonicParsing="false" onAction="#onZoomOutNearestClick" prefHeight="25.0" prefWidth="90.0" text="ZoomOut NN" />
-                                        <Button layoutX="14.0" layoutY="292.0" mnemonicParsing="false" onAction="#onZoomOutSuperSampling" prefHeight="25.0" prefWidth="90.0" text="Zoom Out S" />
-                                          <Label layoutX="14.0" layoutY="160.0" text="Zoom" textFill="WHITE">
-                                             <font>
-                                                <Font name="System Bold" size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="14.0" layoutY="14.0" text="Rotacion" textFill="WHITE">
-                                             <font>
-                                                <Font name="System Bold" size="14.0" />
-                                             </font>
-                                          </Label>
-                                    </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                           </panes>
-                        </Accordion>
-                     </content>
-                </Tab>
-                  <Tab text="Iluminacion">
-                     <content>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #566985;">
-                           <children>
-                              <Label layoutX="17.0" layoutY="16.0" text="Brillo" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                              <Button layoutX="20.0" layoutY="62.0" mnemonicParsing="false" onAction="#onBrigthnessButtonClick" prefHeight="25.0" prefWidth="80.0" text="Aplicar" />
-                              <Slider fx:id="lightSlider" layoutX="14.0" layoutY="40.0" max="255.0" min="-255.0" />
-                              <Button layoutX="20.0" layoutY="156.0" mnemonicParsing="false" onAction="#onConstrastButtonClick" prefHeight="25.0" prefWidth="80.0" text="Aplicar" />
-                              <Slider fx:id="contrastSlider" blockIncrement="0.1" layoutX="14.0" layoutY="126.0" majorTickUnit="0.5" max="2.0" showTickMarks="true" value="1.0" />
-                              <Button layoutX="17.0" layoutY="268.0" mnemonicParsing="false" onAction="#onUmbralButtonClick" prefHeight="25.0" prefWidth="102.0" text="Umbral Simple" />
-                              <Slider fx:id="umbralSlider" layoutX="14.0" layoutY="228.0" max="255.0" showTickLabels="true" showTickMarks="true" />
-                              <Button layoutX="15.0" layoutY="372.0" mnemonicParsing="false" onAction="#onMultiUmbralButtonClick" prefHeight="25.0" prefWidth="110.0" text="Umbral Multiple" />
-                              <TextField fx:id="umbralMultInf" layoutX="16.0" layoutY="338.0" prefHeight="25.0" prefWidth="60.0" promptText="Valor Inf" />
-                              <TextField fx:id="umbralMultiSup" layoutX="85.0" layoutY="338.0" prefHeight="25.0" prefWidth="64.0" promptText="Valor Sup" />
-                              <Label layoutX="17.0" layoutY="99.0" text="Contraste" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="21.0" layoutY="200.0" text="Umbral Simple" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="19.0" layoutY="310.0" text="Umbral Mutiple" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                <Tab text="Filtros">
-                     <content>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                               <Button layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#onMeanButtonClick" prefHeight="25.0" prefWidth="80.0" text="Promedio" />
-                               <Button layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#onGaussButtonClick" prefHeight="25.0" prefWidth="80.0" text="Gauss" />
-                               <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#onMedianButtonClick" prefHeight="25.0" prefWidth="80.0" text="Mediana" />
-                               <Button layoutX="14.0" layoutY="176.0" text="Sobel" onAction="#onApplySobelClick"/>
-                               <HBox layoutX="70.0" layoutY="168.0" prefHeight="10.0" prefWidth="222.0">
-                                   <children>
-                                       <RadioButton fx:id="radioXSobel" mnemonicParsing="false" selected="true" text="X">
-                                           <HBox.margin>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </HBox.margin>
-                                           <toggleGroup>
-                                               <ToggleGroup fx:id="orientationGroupSobel" />
-                                           </toggleGroup>
-                                           <padding>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </padding>
-                                       </RadioButton>
-                                       <RadioButton fx:id="radioYSobel" mnemonicParsing="false" text="Y" toggleGroup="$orientationGroupSobel">
-                                           <HBox.margin>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </HBox.margin>
-                                           <padding>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </padding>
-                                       </RadioButton>
-                                   </children>
-                               </HBox>
-                               <Spinner fx:id="rowsSpinnerSobel" editable="true" layoutX="14.0" layoutY="206.0" prefWidth="60.0" />
-                               <Spinner fx:id="colsSpinnerSobel" editable="true" layoutX="80.0" layoutY="206.0" prefWidth="60.0" />
-                               <Button layoutX="14.0" layoutY="246.0" onAction="#onApplyPrewittClick" text="Prewitt" />
-                               <HBox layoutX="70.0" layoutY="238.0" prefHeight="10.0" prefWidth="222.0">
-                                   <children>
-                                       <RadioButton fx:id="radioXPrewitt" mnemonicParsing="false" selected="true" text="X">
-                                           <HBox.margin>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </HBox.margin>
-                                           <toggleGroup>
-                                               <ToggleGroup fx:id="orientationGroupPrewitt" />
-                                           </toggleGroup>
-                                           <padding>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </padding>
-                                       </RadioButton>
-                                       <RadioButton fx:id="radioYPrewitt" mnemonicParsing="false" text="Y" toggleGroup="$orientationGroupPrewitt">
-                                           <HBox.margin>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </HBox.margin>
-                                           <padding>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </padding>
-                                       </RadioButton>
-                                   </children>
-                               </HBox>
-                               <Spinner fx:id="rowsSpinnerPrewitt" layoutX="14.0" layoutY="276.0" prefWidth="60.0" />
-                               <Spinner fx:id="colsSpinnerPrewitt" layoutX="80.0" layoutY="276.0" prefWidth="60.0" />
-                               <Button layoutX="14.0" layoutY="316.0" onAction="#onApplyRobertsClick" text="Roberts" />
-                               <HBox layoutX="70.0" layoutY="308.0" prefHeight="10.0" prefWidth="222.0">
-                                   <children>
-                                       <RadioButton fx:id="radioXRoberts" mnemonicParsing="false" selected="true" text="X">
-                                           <HBox.margin>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </HBox.margin>
-                                           <toggleGroup>
-                                               <ToggleGroup fx:id="orientationGroupRoberts" />
-                                           </toggleGroup>
-                                           <padding>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </padding>
-                                       </RadioButton>
-                                       <RadioButton fx:id="radioYRoberts" mnemonicParsing="false" text="Y" toggleGroup="$orientationGroupRoberts">
-                                           <HBox.margin>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </HBox.margin>
-                                           <padding>
-                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                           </padding>
-                                       </RadioButton>
-                                   </children>
-                               </HBox>
-                              <Button layoutX="11.0" layoutY="415.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Gradiente" />
-                              <Button layoutX="12.0" layoutY="379.0" mnemonicParsing="false" onAction="#onPerfilado4Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 4" />
-                              <Button layoutX="98.0" layoutY="379.0" mnemonicParsing="false" onAction="#onPerfilado8Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 8" />
-                              <Button layoutX="11.0" layoutY="475.0" mnemonicParsing="false" onAction="#onCustomKernelButtonClick" text="Kernel Personalizado" />
-                              <Label layoutX="13.0" layoutY="148.0" text="Operadores de Borde" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="14.0" layoutY="4.0" text="Filtros" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="13.0" layoutY="351.0" text="Operadores" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="13.0" layoutY="450.0" prefWidth="50.0" text="Otros" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="meanFilterH" alignment="CENTER" layoutX="100.0" layoutY="28.0" prefHeight="25.0" prefWidth="23.0" promptText="H" />
-                              <Label layoutX="124.0" layoutY="31.0" text="X" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="meanFilterW" alignment="CENTER" layoutX="135.0" layoutY="29.0" prefHeight="25.0" prefWidth="23.0" promptText="W" />
-                              <TextField fx:id="gaussFilterSize" alignment="CENTER" layoutX="100.0" layoutY="100.0" prefHeight="25.0" prefWidth="40.0" promptText="Size" />
-                              <TextField fx:id="medianFilterSize" alignment="CENTER" layoutX="100.0" layoutY="66.0" prefHeight="25.0" prefWidth="40.0" promptText="Size" />
-                           </children>
-                        </AnchorPane>
-                     </content></Tab>
-              </tabs>
-            </TabPane>
+            <VBox prefHeight="548.0" prefWidth="250.0">
+               <children>
+                  <AnchorPane prefHeight="70.0" prefWidth="210.0" style="-fx-background-color: #566985;">
+                     <children>
+                        <Button layoutX="10.0" layoutY="7.0" mnemonicParsing="false" onAction="#onUndoButtonClick" prefHeight="20.0" prefWidth="50.0" text="Undo">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Button>
+                        <Button layoutX="69.0" layoutY="7.0" mnemonicParsing="false" onAction="#onRedoButtonClick" prefHeight="25.0" prefWidth="50.0" text="Redo">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </AnchorPane>
+                  <TabPane prefHeight="548.0" prefWidth="165.0" style="-fx-background-color: #566985;" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Basicos">
+                           <content>
+                              <Accordion>
+                                 <panes>
+                                    <TitledPane animated="false" text="Tonalidad">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #566985;">
+                                             <children>
+                                                <ColorPicker fx:id="colorScalePicker" layoutX="8.0" layoutY="49.0" />
+                                                <Button layoutX="8.0" layoutY="86.0" mnemonicParsing="false" onAction="#onColorScalePickerClick" prefWidth="80.0" text="Color Scale" />
+                                                <ToggleButton layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#onGreyscaleButtonClick" prefHeight="25.0" prefWidth="80.0" text="GrayScale" />
+                                                <ToggleButton layoutX="9.0" layoutY="123.0" mnemonicParsing="false" onAction="#onNegativeButtonClick" prefHeight="25.0" prefWidth="80.0" text="Negativo" />
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </TitledPane>
+                                    <TitledPane animated="false" text="Zoom/Rotacion">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #566985;">
+                                             <children>
+                                              <Button layoutX="14.0" layoutY="187.0" mnemonicParsing="false" onAction="#onZoomInNearestClick" prefHeight="25.0" prefWidth="90.0" text="ZoomIn NN" />
+                                              <Button layoutX="14.0" layoutY="224.0" mnemonicParsing="false" onAction="#onZoomInBilinearClick" prefHeight="25.0" prefWidth="90.0" text="Zoom In B" />
+                                              <Button layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#onRotation90Click" prefHeight="25.0" prefWidth="90.0" text="Rotacion 90" />
+                                              <Button layoutX="111.0" layoutY="41.0" mnemonicParsing="false" onAction="#onMirrorHClick" text="Espejo H" />
+                                              <Button layoutX="112.0" layoutY="79.0" mnemonicParsing="false" onAction="#onMirrorVClick" text="Espejo V" />
+                                              <Button layoutX="14.0" layoutY="79.0" mnemonicParsing="false" onAction="#onRotation180Click" prefHeight="25.0" prefWidth="90.0" text="Rotacion 180" />
+                                              <Button layoutX="14.0" layoutY="118.0" mnemonicParsing="false" onAction="#onRotation270Click" prefHeight="25.0" prefWidth="90.0" text="Rotacion 270" />
+                                              <Button layoutX="14.0" layoutY="259.0" mnemonicParsing="false" onAction="#onZoomOutNearestClick" prefHeight="25.0" prefWidth="90.0" text="ZoomOut NN" />
+                                              <Button layoutX="14.0" layoutY="292.0" mnemonicParsing="false" onAction="#onZoomOutSuperSampling" prefHeight="25.0" prefWidth="90.0" text="Zoom Out S" />
+                                                <Label layoutX="14.0" layoutY="160.0" text="Zoom" textFill="WHITE">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label layoutX="14.0" layoutY="14.0" text="Rotacion" textFill="WHITE">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                          </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </TitledPane>
+                                 </panes>
+                              </Accordion>
+                           </content>
+                      </Tab>
+                        <Tab text="Iluminacion">
+                           <content>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #566985;">
+                                 <children>
+                                    <Label layoutX="17.0" layoutY="16.0" text="Brillo" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Button layoutX="20.0" layoutY="62.0" mnemonicParsing="false" onAction="#onBrigthnessButtonClick" prefHeight="25.0" prefWidth="80.0" text="Aplicar" />
+                                    <Slider fx:id="lightSlider" layoutX="14.0" layoutY="40.0" max="255.0" min="-255.0" />
+                                    <Button layoutX="20.0" layoutY="156.0" mnemonicParsing="false" onAction="#onConstrastButtonClick" prefHeight="25.0" prefWidth="80.0" text="Aplicar" />
+                                    <Slider fx:id="contrastSlider" blockIncrement="0.1" layoutX="14.0" layoutY="126.0" majorTickUnit="0.5" max="2.0" showTickMarks="true" value="1.0" />
+                                    <Button layoutX="17.0" layoutY="268.0" mnemonicParsing="false" onAction="#onUmbralButtonClick" prefHeight="25.0" prefWidth="102.0" text="Umbral Simple" />
+                                    <Slider fx:id="umbralSlider" layoutX="14.0" layoutY="228.0" max="255.0" showTickLabels="true" showTickMarks="true" />
+                                    <Button layoutX="15.0" layoutY="372.0" mnemonicParsing="false" onAction="#onMultiUmbralButtonClick" prefHeight="25.0" prefWidth="110.0" text="Umbral Multiple" />
+                                    <TextField fx:id="umbralMultInf" layoutX="16.0" layoutY="338.0" prefHeight="25.0" prefWidth="60.0" promptText="Valor Inf" />
+                                    <TextField fx:id="umbralMultiSup" layoutX="85.0" layoutY="338.0" prefHeight="25.0" prefWidth="64.0" promptText="Valor Sup" />
+                                    <Label layoutX="17.0" layoutY="99.0" text="Contraste" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="21.0" layoutY="200.0" text="Umbral Simple" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="19.0" layoutY="310.0" text="Umbral Mutiple" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                      <Tab text="Filtros">
+                           <content>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                     <Button layoutX="14.0" layoutY="28.0" mnemonicParsing="false" onAction="#onMeanButtonClick" prefHeight="25.0" prefWidth="80.0" text="Promedio" />
+                                     <Button layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#onGaussButtonClick" prefHeight="25.0" prefWidth="80.0" text="Gauss" />
+                                     <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#onMedianButtonClick" prefHeight="25.0" prefWidth="80.0" text="Mediana" />
+                                     <Button layoutX="14.0" layoutY="176.0" onAction="#onApplySobelClick" text="Sobel" />
+                                     <HBox layoutX="70.0" layoutY="168.0" prefHeight="10.0" prefWidth="222.0">
+                                         <children>
+                                             <RadioButton fx:id="radioXSobel" mnemonicParsing="false" selected="true" text="X">
+                                                 <HBox.margin>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </HBox.margin>
+                                                 <toggleGroup>
+                                                     <ToggleGroup fx:id="orientationGroupSobel" />
+                                                 </toggleGroup>
+                                                 <padding>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </padding>
+                                             </RadioButton>
+                                             <RadioButton fx:id="radioYSobel" mnemonicParsing="false" text="Y" toggleGroup="$orientationGroupSobel">
+                                                 <HBox.margin>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </HBox.margin>
+                                                 <padding>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </padding>
+                                             </RadioButton>
+                                         </children>
+                                     </HBox>
+                                     <Spinner fx:id="rowsSpinnerSobel" editable="true" layoutX="14.0" layoutY="206.0" prefWidth="60.0" />
+                                     <Spinner fx:id="colsSpinnerSobel" editable="true" layoutX="80.0" layoutY="206.0" prefWidth="60.0" />
+                                     <Button layoutX="14.0" layoutY="246.0" onAction="#onApplyPrewittClick" text="Prewitt" />
+                                     <HBox layoutX="70.0" layoutY="238.0" prefHeight="10.0" prefWidth="222.0">
+                                         <children>
+                                             <RadioButton fx:id="radioXPrewitt" mnemonicParsing="false" selected="true" text="X">
+                                                 <HBox.margin>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </HBox.margin>
+                                                 <toggleGroup>
+                                                     <ToggleGroup fx:id="orientationGroupPrewitt" />
+                                                 </toggleGroup>
+                                                 <padding>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </padding>
+                                             </RadioButton>
+                                             <RadioButton fx:id="radioYPrewitt" mnemonicParsing="false" text="Y" toggleGroup="$orientationGroupPrewitt">
+                                                 <HBox.margin>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </HBox.margin>
+                                                 <padding>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </padding>
+                                             </RadioButton>
+                                         </children>
+                                     </HBox>
+                                     <Spinner fx:id="rowsSpinnerPrewitt" layoutX="14.0" layoutY="276.0" prefWidth="60.0" />
+                                     <Spinner fx:id="colsSpinnerPrewitt" layoutX="80.0" layoutY="276.0" prefWidth="60.0" />
+                                     <Button layoutX="14.0" layoutY="316.0" onAction="#onApplyRobertsClick" text="Roberts" />
+                                     <HBox layoutX="70.0" layoutY="308.0" prefHeight="10.0" prefWidth="222.0">
+                                         <children>
+                                             <RadioButton fx:id="radioXRoberts" mnemonicParsing="false" selected="true" text="X">
+                                                 <HBox.margin>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </HBox.margin>
+                                                 <toggleGroup>
+                                                     <ToggleGroup fx:id="orientationGroupRoberts" />
+                                                 </toggleGroup>
+                                                 <padding>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </padding>
+                                             </RadioButton>
+                                             <RadioButton fx:id="radioYRoberts" mnemonicParsing="false" text="Y" toggleGroup="$orientationGroupRoberts">
+                                                 <HBox.margin>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </HBox.margin>
+                                                 <padding>
+                                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                 </padding>
+                                             </RadioButton>
+                                         </children>
+                                     </HBox>
+                                    <Button layoutX="11.0" layoutY="415.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Gradiente" />
+                                    <Button layoutX="12.0" layoutY="379.0" mnemonicParsing="false" onAction="#onPerfilado4Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 4" />
+                                    <Button layoutX="98.0" layoutY="379.0" mnemonicParsing="false" onAction="#onPerfilado8Click" prefHeight="25.0" prefWidth="80.0" text="Perfil 8" />
+                                    <Button layoutX="11.0" layoutY="475.0" mnemonicParsing="false" onAction="#onCustomKernelButtonClick" text="Kernel Personalizado" />
+                                    <Label layoutX="13.0" layoutY="148.0" text="Operadores de Borde" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="14.0" layoutY="4.0" text="Filtros" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="13.0" layoutY="351.0" text="Operadores" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="13.0" layoutY="450.0" prefWidth="50.0" text="Otros" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="meanFilterH" alignment="CENTER" layoutX="100.0" layoutY="28.0" prefHeight="25.0" prefWidth="23.0" promptText="H" />
+                                    <Label layoutX="124.0" layoutY="31.0" text="X" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="meanFilterW" alignment="CENTER" layoutX="135.0" layoutY="29.0" prefHeight="25.0" prefWidth="23.0" promptText="W" />
+                                    <TextField fx:id="gaussFilterSize" alignment="CENTER" layoutX="100.0" layoutY="100.0" prefHeight="25.0" prefWidth="40.0" promptText="Size" />
+                                    <TextField fx:id="medianFilterSize" alignment="CENTER" layoutX="100.0" layoutY="66.0" prefHeight="25.0" prefWidth="40.0" promptText="Size" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </VBox>
              <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefHeight="375.0" prefWidth="400.0" style="-fx-background-color: #666666;" HBox.hgrow="ALWAYS">
                  <content>
                      <StackPane style="-fx-background-color: #666666;">
