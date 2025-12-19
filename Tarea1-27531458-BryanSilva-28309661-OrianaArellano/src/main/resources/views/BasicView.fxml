@@ -32,7 +32,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="basicView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #2b2b2b;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BasicViewController">
+<VBox fx:id="basicView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #2b2b2b;" stylesheets="@../styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BasicViewController">
     <children>
         <MenuBar style="-fx-background-color: #3c3f41; -fx-base: #3c3f41;">
             <menus>
@@ -74,7 +74,7 @@
                             </children>
                         </HBox>
 
-                        <TabPane prefHeight="548.0" prefWidth="165.0" style="-fx-tab-min-height: 30;" stylesheets="@../styles.css" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                        <TabPane prefHeight="548.0" prefWidth="165.0" style="-fx-tab-min-height: 30;" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                             <tabs>
                                 <Tab text="Básicos">
                                     <content>
@@ -110,7 +110,7 @@
                                                         </VBox>
                                                     </content>
                                                 </TitledPane>
-                                                <TitledPane animated="false" style="-fx-background-color: #3c3f41;" text="Transformación">
+                                                <TitledPane animated="false" text="Transformación">
                                                     <content>
                                                         <ScrollPane fitToWidth="true" style="-fx-background: #3c3f41; -fx-background-color: transparent;">
                                                             <content>
